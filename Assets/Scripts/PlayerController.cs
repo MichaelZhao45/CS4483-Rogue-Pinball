@@ -27,9 +27,19 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         // Rotate player to match camera rotation.
+        Vector3 cameraForward = _camera.transform.forward.normalized;
+        cameraForward.y = 0f; // Ignore the y-axis rotation.
+        if (cameraForward != Vector3.zero)
+        {
+            Quaternion newRotation = Quaternion.LookRotation(cameraForward);
+            transform.rotation = newRotation;
+        }
 
-
-        // Handle player movement.
-
+        // Handle player movement
+        if (_moveInput.magnitude >= 0.1f)
+        {
+            Vector3 movement = (transform.right * _moveInput.x) + (transform.forward * _moveInput.y);
+            cc.Move(_moveSpeed * Time.deltaTime * movement);
+        }
     }
 }
