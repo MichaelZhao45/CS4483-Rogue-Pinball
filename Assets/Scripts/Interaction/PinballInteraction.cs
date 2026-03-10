@@ -46,7 +46,6 @@ public class PinballInteraction : MonoBehaviour
         {
             playerNearby = false;
             pc.ClearInteractionText();
-            pc = null;
         }
     }
 }
