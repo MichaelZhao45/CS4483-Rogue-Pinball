@@ -1,10 +1,9 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PinballInteraction : MonoBehaviour
+public class PinballInteraction : InteractionBase
 {
-    private bool playerNearby = false;
-    private PlayerController pc;
+    [SerializeField] private PinballController _pinballControl;
 
     [Header("Actions")]
     [SerializeField] private InputActionReference _startGameAction;
@@ -12,21 +11,23 @@ public class PinballInteraction : MonoBehaviour
     void Awake()
     {
         _startGameAction.action.Enable();
-        _startGameAction.action.performed += TransitionCameras;
+        _startGameAction.action.performed += StartPinballGame;
     }
 
     void OnDestroy()
     {
         _startGameAction.action.Disable();
-        _startGameAction.action.performed -= TransitionCameras;
+        _startGameAction.action.performed -= StartPinballGame;
     }
 
-    void TransitionCameras(InputAction.CallbackContext context)
+    void StartPinballGame(InputAction.CallbackContext context)
     {
         if (pc != null && playerNearby)
         {
             pc.ClearInteractionText();
             pc.SwitchCameras();
+
+            StartCoroutine(_pinballControl.DelayStartGame(2.0f));
         }
     }
 
@@ -35,7 +36,6 @@ public class PinballInteraction : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerNearby = true;
-            pc = other.gameObject.GetComponent<PlayerController>();
             pc.ShowPinballInteractionPrompt();
         }
     }

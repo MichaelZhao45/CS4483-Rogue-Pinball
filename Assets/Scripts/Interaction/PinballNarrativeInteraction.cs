@@ -1,10 +1,10 @@
 using UnityEngine;
 
-public class BedInteraction : InteractionBase
+public class PinballNarrativeInteraction : InteractionBase
 {
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player")) pc.ShowBedInteractionText();
+        if (other.CompareTag("Player")) pc.ShowPinballNarrativeInteractionText();
     }
 
     void OnTriggerExit(Collider other)

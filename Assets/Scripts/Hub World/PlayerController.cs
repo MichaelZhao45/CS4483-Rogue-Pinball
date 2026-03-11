@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using Unity.Cinemachine;
 using UnityEngine;
@@ -24,14 +25,21 @@ public class PlayerController : MonoBehaviour
 
     [Header("Interaction Prompts")]
     [SerializeField] private string _pinballInteractionText;
+    [SerializeField] private string _pinballNarrativeInteractionText;
     [SerializeField] private string _bedInteractionText;
     [SerializeField] private string _lightSwitchInteractionText;
+
+    // Audio Settings
+    private AudioSource _audioSource;
+    private bool _isFootstepsPlaying = false;
 
     void Start()
     {
         cc = GetComponent<CharacterController>();
 
         _isZoomed = false;
+
+        _audioSource = GetComponent<AudioSource>();
     }
 
     void OnMove(InputValue movementValue)
@@ -50,11 +58,26 @@ public class PlayerController : MonoBehaviour
             transform.rotation = newRotation;
         }
 
+
         // Handle player movement
-        if (!_isMovementLocked && _moveInput.magnitude >= 0.1f)
+        if (_moveInput.magnitude >= 0.1f)
         {
-            Vector3 movement = (transform.right * _moveInput.x) + (transform.forward * _moveInput.y);
-            cc.Move(_moveSpeed * Time.deltaTime * movement);
+            if (!_isFootstepsPlaying)
+            {
+                _audioSource.Play();
+                _isFootstepsPlaying = true;
+            }
+
+            if (!_isMovementLocked)
+            {
+                Vector3 movement = (transform.right * _moveInput.x) + (transform.forward * _moveInput.y);
+                cc.Move(_moveSpeed * Time.deltaTime * movement);
+            }
+        }
+        else
+        {
+            _audioSource.Stop();
+            _isFootstepsPlaying = false;
         }
     }
 
@@ -79,6 +102,11 @@ public class PlayerController : MonoBehaviour
     public void ShowPinballInteractionPrompt()
     {
         _interactionText.text = _pinballInteractionText;
+    }
+
+    public void ShowPinballNarrativeInteractionText()
+    {
+        _interactionText.text = _pinballNarrativeInteractionText;
     }
 
     public void ShowBedInteractionText()

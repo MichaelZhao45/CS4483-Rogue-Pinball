@@ -1,13 +1,11 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class LightSwitchInteraction : MonoBehaviour
+public class LightSwitchInteraction : InteractionBase
 {
-    private bool playerNearby = false;
-    private PlayerController pc;
-
     [SerializeField] private GameObject _light;
     private FlickerLight _fl;
+    private AudioSource _audioSource;
 
     [Header("Actions")]
     [SerializeField] private InputActionReference _interactAction;
@@ -18,6 +16,8 @@ public class LightSwitchInteraction : MonoBehaviour
         _interactAction.action.performed += ToggleLightSwitch;
 
         _fl = _light.GetComponent<FlickerLight>();
+
+        _audioSource = GetComponent<AudioSource>();
     }
 
     void OnDestroy()
@@ -31,6 +31,7 @@ public class LightSwitchInteraction : MonoBehaviour
         if (pc != null && _fl != null && playerNearby)
         {
             _fl.ToggleOnOff();
+            _audioSource.Play();
         }
     }
 
@@ -39,7 +40,6 @@ public class LightSwitchInteraction : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerNearby = true;
-            pc = other.gameObject.GetComponent<PlayerController>();
             pc.ShowLightSwitchInteractionText();
         }
     }
@@ -50,7 +50,6 @@ public class LightSwitchInteraction : MonoBehaviour
         {
             playerNearby = false;
             pc.ClearInteractionText();
-            pc = null;
         }
     }
 }
