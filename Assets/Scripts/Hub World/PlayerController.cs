@@ -1,4 +1,3 @@
-using System;
 using TMPro;
 using Unity.Cinemachine;
 using UnityEngine;
@@ -60,7 +59,7 @@ public class PlayerController : MonoBehaviour
 
 
         // Handle player movement
-        if (_moveInput.magnitude >= 0.1f)
+        if (_moveInput.magnitude >= 0.1f && !_isMovementLocked)
         {
             if (!_isFootstepsPlaying)
             {
@@ -76,8 +75,11 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            _audioSource.Stop();
-            _isFootstepsPlaying = false;
+            if (_audioSource.isPlaying)
+            {
+                _audioSource.Stop();
+                _isFootstepsPlaying = false;
+            }
         }
     }
 

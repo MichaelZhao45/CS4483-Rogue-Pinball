@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 public class PinballInteraction : InteractionBase
 {
-    [SerializeField] private PinballController _pinballControl;
+    [SerializeField] private PinballGameController _pinballControl;
 
     [Header("Actions")]
     [SerializeField] private InputActionReference _startGameAction;
