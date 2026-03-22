@@ -19,10 +19,9 @@ public class Bumper : MonoBehaviour
             // If the bumper has no knockback strength, don't bother doing the calculations.
             if (_strength == 0) return;
         
-            Vector3 knockback = transform.position - collision.gameObject.transform.position;
-            knockback *= _strength;
+            Vector3 knockback = collision.contacts[0].normal * _strength;
 
-            _collidedBallRb.AddForce(knockback.normalized, ForceMode.Impulse);
+            _collidedBallRb.AddForce(knockback, ForceMode.Impulse);
         }
     }
 
