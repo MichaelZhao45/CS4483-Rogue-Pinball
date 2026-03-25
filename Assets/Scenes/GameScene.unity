@@ -3046,6 +3046,8 @@ GameObject:
   - component: {fileID: 492103992}
   - component: {fileID: 492103995}
   - component: {fileID: 492103994}
+  - component: {fileID: 492103996}
+  - component: {fileID: 492103997}
   m_Layer: 0
   m_Name: Exit Door
   m_TagString: Untagged
@@ -3125,6 +3127,40 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 492103991}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!65 &492103996
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 492103991}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.6198139, y: 1, z: 4.461641}
+  m_Center: {x: 0.006080389, y: 0, z: 1.730819}
+--- !u!114 &492103997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 492103991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc34e74f0c773d74a8a8bdd39fe6516f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ExitDoorInteraction
+  interactionMessage: 
 --- !u!4 &494729490 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9090993007223776057, guid: 08b5430611b45544abb388e513a4f9cc, type: 3}

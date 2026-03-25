@@ -11,7 +11,7 @@ public class InteractionBase : MonoBehaviour
         player = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
     }
 
-    protected void OnTriggerEnter(Collider other)
+    protected virtual void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
@@ -20,7 +20,7 @@ public class InteractionBase : MonoBehaviour
         }
     }
 
-    protected void OnTriggerExit(Collider other)
+    protected virtual void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))
         {
