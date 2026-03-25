@@ -4,48 +4,25 @@ using UnityEngine.InputSystem;
 public class PinballInteraction : InteractionBase
 {
     [SerializeField] private PinballGameController _pinballControl;
+    [SerializeField] private float _gameStartDelay = 2.0f;
+    private bool _gamePlaying = false;
 
-    [Header("Actions")]
-    [SerializeField] private InputActionReference _startGameAction;
-
-    void Awake()
+    public void StartGame(InputAction.CallbackContext context)
     {
-        _startGameAction.action.Enable();
-        _startGameAction.action.performed += StartPinballGame;
-    }
-
-    void OnDestroy()
-    {
-        _startGameAction.action.Disable();
-        _startGameAction.action.performed -= StartPinballGame;
-    }
-
-    void StartPinballGame(InputAction.CallbackContext context)
-    {
-        if (pc != null && playerNearby)
+        if (player != null && playerNearby)
         {
-            pc.ClearInteractionText();
-            pc.SwitchCameras();
+            if (context.performed)
+            {
+                player.ClearInteractionText();
+                player.SwitchCameras();
 
-            StartCoroutine(_pinballControl.DelayStartGame(2.0f));
-        }
-    }
+                if (!_gamePlaying)
+                {
+                    StartCoroutine(_pinballControl.DelayStartGame(_gameStartDelay));
+                }
 
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            playerNearby = true;
-            pc.ShowPinballInteractionPrompt();
-        }
-    }
-
-    void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            playerNearby = false;
-            pc.ClearInteractionText();
+                _gamePlaying = !_gamePlaying;
+            }
         }
     }
 }

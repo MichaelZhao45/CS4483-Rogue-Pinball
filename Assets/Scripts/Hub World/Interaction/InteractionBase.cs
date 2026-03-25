@@ -2,12 +2,13 @@ using UnityEngine;
 
 public class InteractionBase : MonoBehaviour
 {
-    protected PlayerController pc;
+    protected PlayerController player;
     protected bool playerNearby;
+    [SerializeField] protected string interactionMessage;
     
-    void Start()
+    protected virtual void Start()
     {
-        pc = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
+        player = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
     }
 
     protected void OnTriggerEnter(Collider other)
@@ -15,7 +16,7 @@ public class InteractionBase : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerNearby = true;
-            //pc.ShowInteractionText();
+            player.ShowInteractionText(interactionMessage);
         }
     }
 
@@ -24,7 +25,7 @@ public class InteractionBase : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerNearby = false;
-            pc.ClearInteractionText();
+            player.ClearInteractionText();
         }
     }
 }

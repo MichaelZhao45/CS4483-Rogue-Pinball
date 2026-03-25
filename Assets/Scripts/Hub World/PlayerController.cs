@@ -3,30 +3,26 @@ using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(AudioSource))]
+[RequireComponent(typeof(CharacterController))]
+[RequireComponent(typeof(PlayerInput))]
 public class PlayerController : MonoBehaviour
 {
     [Header("Player Settings")]
     [SerializeField] private float _moveSpeed = 3.0f;
-    private bool _isMovementLocked = false;
 
     private Vector2 _moveInput;
 
     private CharacterController cc;
+    private PlayerInput playerInput;
 
-    [Header("Camera Settings")]
+    [Header("Cameras")]
     [SerializeField] private CinemachineCamera _FPCamera;
     [SerializeField] private CinemachineCamera _zoomCamera;
     private bool _isZoomed = false;
 
     [Header("HUD Settings")]
-    [SerializeField] private Canvas _hudCanvas;
     [SerializeField] private TMP_Text _interactionText;
-
-    [Header("Interaction Prompts")]
-    [SerializeField] private string _pinballInteractionText;
-    [SerializeField] private string _pinballNarrativeInteractionText;
-    [SerializeField] private string _bedInteractionText;
-    [SerializeField] private string _lightSwitchInteractionText;
 
     // Audio Settings
     private AudioSource _audioSource;
@@ -35,15 +31,18 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         cc = GetComponent<CharacterController>();
+        _audioSource = GetComponent<AudioSource>();
+        playerInput = GetComponent<PlayerInput>();
 
         _isZoomed = false;
 
-        _audioSource = GetComponent<AudioSource>();
+        // Handling the action maps.
+        DisablePinballMode();
     }
 
-    void OnMove(InputValue movementValue)
+    public void Move(InputAction.CallbackContext context)
     {
-        _moveInput = movementValue.Get<Vector2>().normalized;
+        _moveInput = context.ReadValue<Vector2>().normalized;
     }
 
     void Update()
@@ -57,9 +56,8 @@ public class PlayerController : MonoBehaviour
             transform.rotation = newRotation;
         }
 
-
         // Handle player movement
-        if (_moveInput.magnitude >= 0.1f && !_isMovementLocked)
+        if (_moveInput.magnitude >= 0.1f && !_isZoomed)
         {
             if (!_isFootstepsPlaying)
             {
@@ -67,7 +65,7 @@ public class PlayerController : MonoBehaviour
                 _isFootstepsPlaying = true;
             }
 
-            if (!_isMovementLocked)
+            if (!_isZoomed)
             {
                 Vector3 movement = (transform.right * _moveInput.x) + (transform.forward * _moveInput.y);
                 cc.Move(_moveSpeed * Time.deltaTime * movement);
@@ -85,40 +83,26 @@ public class PlayerController : MonoBehaviour
 
     public void SwitchCameras()
     {
-        ToggleMovementLock();
+        _isZoomed = !_isZoomed;
 
-        if (!_isZoomed)
+        _zoomCamera.gameObject.SetActive(_isZoomed);
+        _FPCamera.gameObject.SetActive(!_isZoomed);
+
+        if (_isZoomed)
         {
-            _zoomCamera.gameObject.SetActive(true);
             _zoomCamera.Prioritize();
+            EnablePinballMode();
         }
         else
         {
-            _zoomCamera.gameObject.SetActive(false);
             _FPCamera.Prioritize();
+            DisablePinballMode();
         }
-
-        _isZoomed = !_isZoomed;
     }
 
-    public void ShowPinballInteractionPrompt()
+    public void ShowInteractionText(string interactionText)
     {
-        _interactionText.text = _pinballInteractionText;
-    }
-
-    public void ShowPinballNarrativeInteractionText()
-    {
-        _interactionText.text = _pinballNarrativeInteractionText;
-    }
-
-    public void ShowBedInteractionText()
-    {
-        _interactionText.text = _bedInteractionText;
-    }
-
-    public void ShowLightSwitchInteractionText()
-    {
-        _interactionText.text = _lightSwitchInteractionText;
+        _interactionText.text = interactionText;
     }
 
     public void ClearInteractionText()
@@ -126,8 +110,15 @@ public class PlayerController : MonoBehaviour
         _interactionText.text = "";
     }
 
-    public void ToggleMovementLock()
+    public void EnablePinballMode()
     {
-        _isMovementLocked = !_isMovementLocked;
+        playerInput.actions.FindActionMap("Pinball").Enable();
+        playerInput.actions.FindActionMap("Hub World").Disable();
+    }
+
+    public void DisablePinballMode()
+    {
+        playerInput.actions.FindActionMap("Pinball").Disable();
+        playerInput.actions.FindActionMap("Hub World").Enable();
     }
 }

@@ -1,55 +1,29 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(AudioSource))]
 public class LightSwitchInteraction : InteractionBase
 {
     [SerializeField] private GameObject _light;
     private FlickerLight _fl;
     private AudioSource _audioSource;
 
-    [Header("Actions")]
-    [SerializeField] private InputActionReference _interactAction;
-
-    void Awake()
+    protected override void Start()
     {
-        _interactAction.action.Enable();
-        _interactAction.action.performed += ToggleLightSwitch;
-
+        base.Start();
         _fl = _light.GetComponent<FlickerLight>();
-
         _audioSource = GetComponent<AudioSource>();
     }
 
-    void OnDestroy()
+    public void ToggleLightSwitch(InputAction.CallbackContext context)
     {
-        _interactAction.action.Disable();
-        _interactAction.action.performed -= ToggleLightSwitch;
-    }
-
-    void ToggleLightSwitch(InputAction.CallbackContext context)
-    {
-        if (pc != null && _fl != null && playerNearby)
+        if (player != null && _fl != null && playerNearby)
         {
-            _fl.ToggleOnOff();
-            _audioSource.Play();
-        }
-    }
-
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            playerNearby = true;
-            pc.ShowLightSwitchInteractionText();
-        }
-    }
-
-    void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            playerNearby = false;
-            pc.ClearInteractionText();
+            if (context.performed)
+            {
+                _fl.ToggleOnOff();
+                _audioSource.Play();
+            }
         }
     }
 }
