@@ -772,7 +772,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Launch",
+                    "name": "Release Ball",
                     "type": "Button",
                     "id": "0cc89dfc-44fb-4690-bfaf-81c764a31c0e",
                     "expectedControlType": "",
@@ -833,7 +833,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
-                    "action": "Launch",
+                    "action": "Release Ball",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

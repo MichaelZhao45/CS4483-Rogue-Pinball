@@ -3,9 +3,9 @@ using UnityEngine.InputSystem;
 
 public class PinballInteraction : InteractionBase
 {
-    [SerializeField] private PinballGameController _pinballControl;
+    [SerializeField] private GameController _gameControl;
     [SerializeField] private float _gameStartDelay = 2.0f;
-    private bool _gamePlaying = false;
+    [SerializeField] private AudioSource _ambience;
 
     public void StartGame(InputAction.CallbackContext context)
     {
@@ -16,12 +16,15 @@ public class PinballInteraction : InteractionBase
                 player.ClearInteractionText();
                 player.SwitchCameras();
 
-                if (!_gamePlaying)
+                if (!_gameControl.gameInProgress)
                 {
-                    StartCoroutine(_pinballControl.DelayStartGame(_gameStartDelay));
+                    _ambience.Stop();
+                    StartCoroutine(_gameControl.DelayStartGame(_gameStartDelay));
                 }
-
-                _gamePlaying = !_gamePlaying;
+                else
+                {
+                    _ambience.Play();
+                }
             }
         }
     }
