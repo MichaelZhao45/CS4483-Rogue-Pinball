@@ -6,12 +6,12 @@ public class BallDropper : MonoBehaviour
     public BallManager ballManager;
 
     [SerializeField] private GameObject _dropperAnchor;
+    private Vector3 _dropperStartPostion;
 
     [SerializeField] private float _ballDropMoveLength = 5.0f;
     [SerializeField] private float _ballDropMoveSpeed = 0.1f;
     private bool _isBallDropMoveRight;
     private float _ballDropLeftBound, _ballDropRightBound;
-    private bool _ballDropped;
     private bool _isActive;
 
     /*
@@ -28,12 +28,15 @@ public class BallDropper : MonoBehaviour
 
     void Start()
     {
-        float dropperX = _dropperAnchor.transform.position.x;
+        _dropperStartPostion = _dropperAnchor.transform.position;
 
+        // Defining the bounds of the dropper's movement.
+        float dropperX = _dropperAnchor.transform.position.x;
         _ballDropLeftBound = dropperX - _ballDropMoveLength;
         _ballDropRightBound = dropperX + _ballDropMoveLength;
         _isBallDropMoveRight = true;
 
+        // The dropper should not move until intentionally made active by GameController.
         _isActive = false;
     }
 
@@ -45,38 +48,26 @@ public class BallDropper : MonoBehaviour
         Vector3 moveDirection = _isBallDropMoveRight ? Vector3.right : Vector3.left;
         moveDirection *= _ballDropMoveSpeed * Time.fixedDeltaTime;
 
-        // Moving the ball at the start of the game.
-        if (!_ballDropped)
+        // Moving the ball.
+        _dropperAnchor.transform.position += moveDirection;
+
+        if (!_isBallDropMoveRight && _dropperAnchor.transform.position.x <= _ballDropLeftBound
+            || _isBallDropMoveRight && _dropperAnchor.transform.position.x >= _ballDropRightBound)
         {
-            //_startingBallRb.MovePosition(_startingBallInstance.transform.position + moveDirection);
-
-            _dropperAnchor.transform.position += moveDirection;
-
-            if (!_isBallDropMoveRight && _dropperAnchor.transform.position.x <= _ballDropLeftBound
-                || _isBallDropMoveRight && _dropperAnchor.transform.position.x >= _ballDropRightBound)
-            {
-                _isBallDropMoveRight = !_isBallDropMoveRight;
-            }
+            _isBallDropMoveRight = !_isBallDropMoveRight;
         }
     }
 
     public void SetDropperActive(bool state)
     {
         _isActive = state;
-    }
-
-    public void Restart()
-    {
         _dropperAnchor.SetActive(true);
-        _ballDropped = false;
-        SetDropperActive(true);
     }
 
     public void ReleaseBall(InputAction.CallbackContext context)
     {
-        if (_ballDropped) return;
+        if (!_isActive) return;
 
-        _ballDropped = true;
         SetDropperActive(false);
         ballManager.SpawnBall(_dropperAnchor.transform.position);
         _dropperAnchor.SetActive(false);

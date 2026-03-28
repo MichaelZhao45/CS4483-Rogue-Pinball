@@ -29,13 +29,11 @@ public class UIManager : MonoBehaviour
 
     public void ShowGameInterface(bool state)
     {
-        Debug.Log($"Game Interface Enabled: {state}");
         _interfaceCanvas.gameObject.SetActive(state);
     }
 
     public void ShowGameOver(bool state)
     {
-        Debug.Log($"GameOver Screen Enabled: {state}");
         _gameOverCanvas.gameObject.SetActive(state);
     }
 }

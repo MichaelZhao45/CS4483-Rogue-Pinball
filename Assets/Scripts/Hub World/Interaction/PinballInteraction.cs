@@ -15,17 +15,26 @@ public class PinballInteraction : InteractionBase
             {
                 player.ClearInteractionText();
                 player.SwitchCameras();
+                    
+                _ambience.Stop();
+                StartCoroutine(_gameControl.DelayStartGame(_gameStartDelay));
 
-                if (!_gameControl.gameInProgress)
-                {
-                    _ambience.Stop();
-                    StartCoroutine(_gameControl.DelayStartGame(_gameStartDelay));
-                }
-                else
-                {
-                    _ambience.Play();
-                }
+                // Change the player's active action map to the pinball mode.
+                player.EnablePinballMode();
             }
+        }
+    }
+
+    public void QuitGame()
+    {
+        if (player != null && playerNearby)
+        {
+            player.SwitchCameras();
+
+            _ambience.Play();
+
+            // Change the player's active action map to the hub world mode.
+            player.DisablePinballMode();
         }
     }
 }

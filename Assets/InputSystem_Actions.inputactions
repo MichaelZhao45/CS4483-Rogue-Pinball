@@ -745,15 +745,6 @@
             "id": "46b7df32-b790-48e2-8bde-363f2a9fa2f0",
             "actions": [
                 {
-                    "name": "Start Game",
-                    "type": "Button",
-                    "id": "92989dbf-5365-4a65-87df-3ce8a831bfba",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "LeftFlipper",
                     "type": "Button",
                     "id": "4f777710-d552-4931-aa6d-7eb3df64e1c2",
@@ -834,17 +825,6 @@
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
                     "action": "Release Ball",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "7e97608d-4c39-48a8-ac79-8557309bae1b",
-                    "path": "<Keyboard>/e",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Start Game",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

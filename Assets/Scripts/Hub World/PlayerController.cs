@@ -91,12 +91,10 @@ public class PlayerController : MonoBehaviour
         if (_isZoomed)
         {
             _zoomCamera.Prioritize();
-            EnablePinballMode();
         }
         else
         {
             _FPCamera.Prioritize();
-            DisablePinballMode();
         }
     }
 

@@ -5,6 +5,7 @@ public class GameController : MonoBehaviour
 {
     public UIManager UI;
     public BallDropper dropper;
+    public ScoreManager score;
 
     private int _currentRound;
     private int _ballsRemaining;
@@ -27,13 +28,15 @@ public class GameController : MonoBehaviour
         StartGame();
     }
 
-    private void StartGame()
+    public void StartGame()
     {
         _currentRound = 1;
         _ballsRemaining = 3;
 
         UI.ShowGameInterface(true);
         UI.SetBalls(_ballsRemaining);
+
+        score.SetScore(0);
 
         dropper.SetDropperActive(true);
 
@@ -45,7 +48,7 @@ public class GameController : MonoBehaviour
         _ballsRemaining--;
         UI.SetBalls(_ballsRemaining);
         
-        if (_ballsRemaining > 0) dropper.Restart();
+        if (_ballsRemaining > 0) dropper.SetDropperActive(true);
         else HandleGameOver();
     }
 

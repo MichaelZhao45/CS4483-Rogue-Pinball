@@ -193,7 +193,7 @@ GameObject:
   - component: {fileID: 38975814}
   m_Layer: 0
   m_Name: RightWall
-  m_TagString: Untagged
+  m_TagString: Pinball Machine
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1092,7 +1092,7 @@ GameObject:
   - component: {fileID: 169376871}
   m_Layer: 0
   m_Name: Play Area Wall
-  m_TagString: Untagged
+  m_TagString: Pinball Machine
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1553,7 +1553,7 @@ GameObject:
   - component: {fileID: 219003728}
   m_Layer: 0
   m_Name: LeftWall
-  m_TagString: Untagged
+  m_TagString: Pinball Machine
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3139,7 +3139,7 @@ GameObject:
   - component: {fileID: 450488008}
   m_Layer: 0
   m_Name: Play Area Wall (2)
-  m_TagString: Untagged
+  m_TagString: Pinball Machine
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3750,13 +3750,25 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 503666349}
+        m_TargetAssemblyTypeName: PinballInteraction, Assembly-CSharp
+        m_MethodName: QuitGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1494346995}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: ShowGameOver
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -4073,22 +4085,6 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 9caa3d8a-6b2f-4e8e-8bad-6ede561bd9be
     m_ActionName: UI/TrackedDeviceOrientation
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 529207617}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: SwitchCameras
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 92989dbf-5365-4a65-87df-3ce8a831bfba
-    m_ActionName: 'Pinball/Start Game[/Keyboard/e]'
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1494346994}
@@ -4812,7 +4808,7 @@ GameObject:
   - component: {fileID: 719338628}
   m_Layer: 0
   m_Name: Ramp
-  m_TagString: Untagged
+  m_TagString: Pinball Machine
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5634,13 +5630,25 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 1494346998}
+        m_TargetAssemblyTypeName: GameController, Assembly-CSharp
+        m_MethodName: StartGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1494346995}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: ShowGameOver
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -5847,7 +5855,7 @@ GameObject:
   - component: {fileID: 1039887823}
   m_Layer: 0
   m_Name: TopWall (5)
-  m_TagString: Untagged
+  m_TagString: Pinball Machine
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7080,7 +7088,7 @@ GameObject:
   - component: {fileID: 1259977532}
   m_Layer: 0
   m_Name: Play Area Wall (3)
-  m_TagString: Untagged
+  m_TagString: Pinball Machine
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8378,6 +8386,7 @@ GameObject:
   - component: {fileID: 1494346997}
   - component: {fileID: 1494346996}
   - component: {fileID: 1494346995}
+  - component: {fileID: 1494347001}
   m_Layer: 0
   m_Name: GameBoard
   m_TagString: Untagged
@@ -8402,7 +8411,6 @@ Transform:
   - {fileID: 578792642}
   - {fileID: 1488646834}
   - {fileID: 1683837349}
-  - {fileID: 1566792691}
   - {fileID: 1850619850}
   - {fileID: 1039887822}
   - {fileID: 719338627}
@@ -8426,6 +8434,7 @@ Transform:
   - {fileID: 1382342853}
   - {fileID: 1461893083}
   - {fileID: 401555054}
+  - {fileID: 1797761955}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: -30, y: 0, z: 0}
 --- !u!114 &1494346994
@@ -8445,6 +8454,8 @@ MonoBehaviour:
   dampening: 100
   LFlipperHinge: {fileID: 578792645}
   RFlipperHinge: {fileID: 1488646842}
+  _flipperAudioSource: {fileID: 1494347001}
+  _flipperSFX: {fileID: 8300000, guid: a0e70c7a35b745d4b9cbd1e928418b17, type: 3}
 --- !u!114 &1494346995
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8503,6 +8514,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameController
   UI: {fileID: 1494346995}
   dropper: {fileID: 1494347000}
+  score: {fileID: 1494346996}
+  gameInProgress: 0
 --- !u!114 &1494346999
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8532,154 +8545,20 @@ MonoBehaviour:
   _dropperAnchor: {fileID: 401555053}
   _ballDropMoveLength: 5
   _ballDropMoveSpeed: 3
---- !u!4 &1521141796 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: d784b016a2b174543978f0323e0eee7c, type: 3}
-  m_PrefabInstance: {fileID: 1278521931}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1566792690
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1566792691}
-  - component: {fileID: 1566792695}
-  - component: {fileID: 1566792694}
-  - component: {fileID: 1566792693}
-  - component: {fileID: 1566792692}
-  - component: {fileID: 1566792696}
-  m_Layer: 0
-  m_Name: Ceiling Target
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1566792691
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1566792690}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.16, y: -1.21, z: 16.01}
-  m_LocalScale: {x: 19, y: 5, z: 0.1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1494346991}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1566792692
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1566792690}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5115e35ceb886ae459560fb3c8c5e2fc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Bumper
-  _strength: 0
-  _pointsEarned: 10
-  _audio: {fileID: 0}
---- !u!65 &1566792693
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1566792690}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!23 &1566792694
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1566792690}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_ForceMeshLod: -1
-  m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: f8167873c1a80de4199c39b9687e1fbe, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_MaskInteraction: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &1566792695
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1566792690}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!82 &1566792696
+--- !u!82 &1494347001
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1566792690}
+  m_GameObject: {fileID: 1494346990}
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_Volume: 1
+  m_PlayOnAwake: 0
+  m_Volume: 0.25
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -8763,6 +8642,11 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!4 &1521141796 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: d784b016a2b174543978f0323e0eee7c, type: 3}
+  m_PrefabInstance: {fileID: 1278521931}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1571615580
 GameObject:
   m_ObjectHideFlags: 0
@@ -9521,8 +9405,8 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_Resource: {fileID: 8300000, guid: 153485ca14232184185f331f6e71f8df, type: 3}
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -9621,7 +9505,7 @@ GameObject:
   - component: {fileID: 1765366850}
   m_Layer: 0
   m_Name: Ramp (1)
-  m_TagString: Untagged
+  m_TagString: Pinball Machine
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9719,6 +9603,76 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1765366848}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &1797761954
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1494346991}
+    m_Modifications:
+    - target: {fileID: 3287637175956740031, guid: 5f552e6b8f41efe42a525645ee1951ce, type: 3}
+      propertyPath: m_Name
+      value: Ceiling Target
+      objectReference: {fileID: 0}
+    - target: {fileID: 3970283553704144063, guid: 5f552e6b8f41efe42a525645ee1951ce, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 19
+      objectReference: {fileID: 0}
+    - target: {fileID: 3970283553704144063, guid: 5f552e6b8f41efe42a525645ee1951ce, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2.65
+      objectReference: {fileID: 0}
+    - target: {fileID: 3970283553704144063, guid: 5f552e6b8f41efe42a525645ee1951ce, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.16
+      objectReference: {fileID: 0}
+    - target: {fileID: 3970283553704144063, guid: 5f552e6b8f41efe42a525645ee1951ce, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 3970283553704144063, guid: 5f552e6b8f41efe42a525645ee1951ce, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 3970283553704144063, guid: 5f552e6b8f41efe42a525645ee1951ce, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3970283553704144063, guid: 5f552e6b8f41efe42a525645ee1951ce, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3970283553704144063, guid: 5f552e6b8f41efe42a525645ee1951ce, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3970283553704144063, guid: 5f552e6b8f41efe42a525645ee1951ce, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3970283553704144063, guid: 5f552e6b8f41efe42a525645ee1951ce, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3970283553704144063, guid: 5f552e6b8f41efe42a525645ee1951ce, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3970283553704144063, guid: 5f552e6b8f41efe42a525645ee1951ce, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 5f552e6b8f41efe42a525645ee1951ce, type: 3}
+--- !u!4 &1797761955 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3970283553704144063, guid: 5f552e6b8f41efe42a525645ee1951ce, type: 3}
+  m_PrefabInstance: {fileID: 1797761954}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1817020436
 GameObject:
   m_ObjectHideFlags: 0
@@ -9855,7 +9809,7 @@ GameObject:
   - component: {fileID: 1850619851}
   m_Layer: 0
   m_Name: TopWall
-  m_TagString: Untagged
+  m_TagString: Pinball Machine
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10057,7 +10011,7 @@ GameObject:
   - component: {fileID: 1934606810}
   m_Layer: 0
   m_Name: Play Area Wall (1)
-  m_TagString: Untagged
+  m_TagString: Pinball Machine
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

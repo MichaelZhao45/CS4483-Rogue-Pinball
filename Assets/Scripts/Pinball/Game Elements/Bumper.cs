@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(AudioSource))]
@@ -11,9 +10,6 @@ public class Bumper : MonoBehaviour
 
     [SerializeField] private AudioSource _audio;
 
-    private float _bounceChargeTime = 1.0f;
-    private bool _isBounceReady = true;
-
     public static event Action<int> OnBumperHit;
 
     void Start()
@@ -23,7 +19,7 @@ public class Bumper : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        if (_isBounceReady && collision.gameObject.TryGetComponent<Rigidbody>(out var _collidedBallRb))
+        if (collision.gameObject.TryGetComponent<Rigidbody>(out var _collidedBallRb))
         {
             _audio.Play();
             OnBumperHit?.Invoke(_pointsEarned);
@@ -34,17 +30,7 @@ public class Bumper : MonoBehaviour
             Vector3 knockback = collision.contacts[0].normal * _strength;
 
             _collidedBallRb.AddForce(knockback, ForceMode.Impulse);
-
-            StartCoroutine(HandleBounceCharge());
         }
-    }
-
-    // A timer is necessary to stop weird physics glitches when the ball bounces off a bumper.
-    private IEnumerator HandleBounceCharge()
-    {
-        _isBounceReady = false;
-        yield return new WaitForSeconds(_bounceChargeTime);
-        _isBounceReady = true;
     }
 
     public int GetPoints()

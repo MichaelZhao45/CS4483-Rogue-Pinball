@@ -14,6 +14,9 @@ public class FlipperController : MonoBehaviour
     private JointSpring jointSpringReleased = new();
     private JointSpring jointSpringPressed = new();
 
+    [SerializeField] private AudioSource _flipperAudioSource;
+    [SerializeField] private AudioClip _flipperSFX;
+
     void Start()
     {
         // Initializing springs.
@@ -28,12 +31,11 @@ public class FlipperController : MonoBehaviour
     {
         if (context.performed)
         {
-            //_rightFlipperPressed = true;
+            _flipperAudioSource.PlayOneShot(_flipperSFX);
             RFlipperHinge.spring = jointSpringPressed;
         }
         else if (context.canceled)
         {
-            //_rightFlipperPressed = false;
             RFlipperHinge.spring = jointSpringReleased;
         }
     }
@@ -42,12 +44,11 @@ public class FlipperController : MonoBehaviour
     {
         if (context.performed)
         {
-            //_leftFlipperPressed = true;
+            _flipperAudioSource.PlayOneShot(_flipperSFX);
             LFlipperHinge.spring = jointSpringPressed;
         }
         else if (context.canceled)
         {
-            //_leftFlipperPressed = false;
             LFlipperHinge.spring = jointSpringReleased;
         }
     }

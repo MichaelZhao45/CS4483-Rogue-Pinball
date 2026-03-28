@@ -19,8 +19,7 @@ public class ScoreManager : MonoBehaviour
 
     void Start()
     {
-        _currentScore = 0;
-        SetScore(_currentScore);
+        SetScore(0);
     }
 
     /*
@@ -33,13 +32,13 @@ public class ScoreManager : MonoBehaviour
     }
     */
 
-    private void AddScore(int gainedScore)
+    public void AddScore(int gainedScore)
     {
         _currentScore += gainedScore;
         UI.SetScore(_currentScore);
     }
 
-    private void SetScore(int newScore)
+    public void SetScore(int newScore)
     {
         _currentScore = newScore;
         UI.SetScore(_currentScore);
