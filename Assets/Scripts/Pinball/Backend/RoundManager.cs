@@ -1,20 +1,37 @@
+using System;
 using UnityEngine;
 
 public class RoundManager : MonoBehaviour
 {
+    private int _currentRound;
 
-    /*
+    public static event Action<int> RoundChanged;
+
+    private void OnEnable()
+    {
+        GameController.GameStarted += Initialize;
+        ScoreManager.ThresholdReached += IncrementRound;
+    }
+
+    private void OnDisable()
+    {
+        GameController.GameStarted -= Initialize;
+        ScoreManager.ThresholdReached -= IncrementRound;
+    }
+
+    void Initialize()
+    {
+        _currentRound = 1;
+    }
+
     private void IncrementRound()
     {
-        _currentScore = 0;
-        UpdateScoreUI();
-
         _currentRound++;
-        // TODO: update the incrementation to be less linear
-        _scoreThreshold += 250;
-
-        _scoreThresholdText.text = _scoreThreshold.ToString();
-        _roundCounterText.text = _currentRound.ToString();
+        RoundChanged?.Invoke(_currentRound);
     }
-    */
+
+    public int GetCurrentRound()
+    {
+        return _currentRound;
+    }
 }

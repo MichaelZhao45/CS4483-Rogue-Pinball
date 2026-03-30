@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -14,17 +15,22 @@ public class BallDropper : MonoBehaviour
     private float _ballDropLeftBound, _ballDropRightBound;
     private bool _isActive;
 
-    /*
+    public static event Action BallDropped;
+
     void OnEnable()
     {
-        Drain.OnDrainHit += Restart;
+        GameController.GameStarted += OnGameStarted;
     }
 
     void OnDisable()
     {
-        Drain.OnDrainHit -= Restart;
+        GameController.GameStarted -= OnGameStarted;
     }
-    */
+
+    private void OnGameStarted()
+    {
+        SetDropperActive(true);
+    }
 
     void Start()
     {
@@ -71,5 +77,7 @@ public class BallDropper : MonoBehaviour
         SetDropperActive(false);
         ballManager.SpawnBall(_dropperAnchor.transform.position);
         _dropperAnchor.SetActive(false);
+
+        BallDropped?.Invoke();
     }
 }

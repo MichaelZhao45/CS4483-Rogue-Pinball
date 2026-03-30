@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -5,11 +6,16 @@ public class GameController : MonoBehaviour
 {
     public UIManager UI;
     public BallDropper dropper;
-    public ScoreManager score;
-
-    private int _currentRound;
+    public ScoreManager scoreManager;
+    public RoundManager roundManager;
+    
     private int _ballsRemaining;
     public bool gameInProgress = false;
+
+    // Orchestrator events.
+    public static event Action GameStarted;
+    public static event Action GameOver;
+    //public static event Action GameRestarted;
 
     private void OnEnable()
     {
@@ -30,17 +36,11 @@ public class GameController : MonoBehaviour
 
     public void StartGame()
     {
-        _currentRound = 1;
         _ballsRemaining = 3;
-
-        UI.ShowGameInterface(true);
         UI.SetBalls(_ballsRemaining);
 
-        score.SetScore(0);
-
-        dropper.SetDropperActive(true);
-
         gameInProgress = true;
+        GameStarted?.Invoke();
     }
 
     private void OnBallDrained()
@@ -55,8 +55,6 @@ public class GameController : MonoBehaviour
     private void HandleGameOver()
     {
         gameInProgress = false;
-
-        UI.ShowGameInterface(false);
-        UI.ShowGameOver(true);
+        GameOver?.Invoke();
     }
 }
