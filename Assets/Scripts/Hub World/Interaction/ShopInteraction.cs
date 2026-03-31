@@ -11,7 +11,7 @@ public class ShopInteraction : InteractionBase
         {
             if (context.performed)
             {
-                shop.SetVisible(true);
+                shop.Show();
                 player.ClearInteractionText();
             }
         }

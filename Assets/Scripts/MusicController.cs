@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 [RequireComponent(typeof(AudioSource))]
@@ -15,12 +14,14 @@ public class MusicController : MonoBehaviour
     {
         GameController.GameStarted += OnGameStarted;
         GameController.GameOver += OnGameOver;
+        Shop.ShopOpened += OnShopOpened;
     }
 
     void OnDisable()
     {
         GameController.GameStarted -= OnGameStarted;
         GameController.GameOver -= OnGameOver;
+        Shop.ShopOpened -= OnShopOpened;
     }
 
     void Start()
@@ -28,15 +29,27 @@ public class MusicController : MonoBehaviour
         _audioSource = GetComponent<AudioSource>();
     }
 
-    private void OnGameOver()
+    public void OnGameOver()
     {
         _audioSource.clip = _gameOverMusic;
         _audioSource.Play();
     }
 
-    private void OnGameStarted()
+    public void OnGameStarted()
     {
         _audioSource.clip = _pinballMusic;
+        _audioSource.Play();
+    }
+
+    public void OnShopOpened()
+    {
+        _audioSource.clip = _shopMusic;
+        _audioSource.Play();
+    }
+
+    public void OnReturnToHub()
+    {
+        _audioSource.clip = _hubWorldMusic;
         _audioSource.Play();
     }
 }

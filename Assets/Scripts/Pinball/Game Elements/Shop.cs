@@ -1,11 +1,20 @@
+using System;
 using UnityEngine;
 
 public class Shop : MonoBehaviour
 {
     [SerializeField] private Canvas _shopCanvas;
+
+    public static event Action ShopOpened;
     
-    public void SetVisible(bool state)
+    public void Show()
     {
-        _shopCanvas.gameObject.SetActive(state);
+        _shopCanvas.gameObject.SetActive(true);
+        ShopOpened?.Invoke();
+    }
+
+    public void Hide()
+    {
+        _shopCanvas.gameObject.SetActive(false);
     }
 }
