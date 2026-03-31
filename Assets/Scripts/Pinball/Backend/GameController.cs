@@ -12,6 +12,8 @@ public class GameController : MonoBehaviour
     private int _ballsRemaining;
     public bool gameInProgress = false;
 
+    private int _maxBalls = 2;
+
     // Orchestrator events.
     public static event Action GameStarted;
     public static event Action GameOver;
@@ -20,11 +22,13 @@ public class GameController : MonoBehaviour
     private void OnEnable()
     {
         Drain.OnDrainHit += OnBallDrained;
+        RoundManager.RoundChanged += OnRoundChanged;
     }
 
     private void OnDisable()
     {
         Drain.OnDrainHit -= OnBallDrained;
+        RoundManager.RoundChanged -= OnRoundChanged;
     }
 
     public IEnumerator DelayStartGame(float time)
@@ -36,7 +40,7 @@ public class GameController : MonoBehaviour
 
     public void StartGame()
     {
-        _ballsRemaining = 3;
+        _ballsRemaining = _maxBalls;
         UI.SetBalls(_ballsRemaining);
 
         gameInProgress = true;
@@ -48,8 +52,14 @@ public class GameController : MonoBehaviour
         _ballsRemaining--;
         UI.SetBalls(_ballsRemaining);
         
-        if (_ballsRemaining > 0) dropper.SetDropperActive(true);
+        if (_ballsRemaining >= 0) dropper.SetDropperActive(true);
         else HandleGameOver();
+    }
+
+    private void OnRoundChanged(int round)
+    {
+        _ballsRemaining = _maxBalls;
+        UI.SetBalls(_ballsRemaining);
     }
 
     private void HandleGameOver()

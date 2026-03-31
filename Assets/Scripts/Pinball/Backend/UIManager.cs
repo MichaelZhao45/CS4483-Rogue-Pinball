@@ -16,6 +16,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Text _ballsRemainingText;
     [SerializeField] private TMP_Text _finalScoreText;
     [SerializeField] private TMP_Text _roundReachedText;
+    [SerializeField] private TMP_Text _moneyCounterText;
 
     private void OnEnable()
     {
@@ -61,62 +62,64 @@ public class UIManager : MonoBehaviour
         SetThreshold(250);
         SetRound(1);
     }
-
-    /*
-    public void SetValue(ref TMP_Text UIText, int num)
+    private void SetValue(TMP_Text textElement, int num)
     {
-        UIText.text = num.ToString();
+        textElement.text = num.ToString();
     }
 
-    public void SetVisible(ref Canvas canvas, bool state)
+    private void SetVisible(Canvas canvas, bool state)
     {
         canvas.gameObject.SetActive(state);
     }
-    */
 
     public void SetScore(int score)
     {
-        _scoreCounterText.text = score.ToString();
+        SetValue(_scoreCounterText, score);
     }
 
     public void SetThreshold(int threshold)
     {
-        _scoreThresholdText.text = threshold.ToString();
+        SetValue(_scoreThresholdText, threshold);
     }
 
     public void SetRound(int round)
     {
-        _roundCounterText.text = round.ToString();
+        SetValue(_roundCounterText, round);
     }
 
     public void SetFinalScore(int score)
     {
-        _finalScoreText.text = score.ToString();
+        SetValue(_finalScoreText, score);
     }
 
     public void SetRoundReached(int round)
     {
-        _roundReachedText.text = round.ToString();
+        SetValue(_roundReachedText, round);
     }
 
     public void SetBalls(int ballsRemaining)
     {
-        _ballsRemainingText.text = ballsRemaining.ToString();
+        SetValue(_ballsRemainingText, ballsRemaining);
+    }
+
+    public void SetMoney(int amount)
+    {
+        _moneyCounterText.text = "$" + amount.ToString();
     }
 
     public void ShowGameInterface(bool state)
     {
-        _interfaceCanvas.gameObject.SetActive(state);
+        SetVisible(_interfaceCanvas, state);
     }
 
     public void ShowGameOver(bool state)
     {
-        _gameOverCanvas.gameObject.SetActive(state);
+        SetVisible(_gameOverCanvas, state);
     }
 
     public void ShowHelp(bool state)
     {
-        _helpCanvas.gameObject.SetActive(state);
+        SetVisible(_helpCanvas, state);
     }
 
     public void HideAll()

@@ -1,11 +1,25 @@
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class PinballInteraction : InteractionBase
 {
     [SerializeField] private GameController _gameControl;
     [SerializeField] private float _gameStartDelay = 2.0f;
     [SerializeField] private AudioSource _ambience;
+
+    public Image fadeCover;
+
+    private void FadeCameraTransition()
+    {
+        Sequence fadeSequence = DOTween.Sequence();
+        fadeSequence.Append(fadeCover.DOFade(1f, 1f));
+        fadeSequence.AppendCallback(player.SwitchCameras);
+        fadeSequence.AppendInterval(1f);
+        fadeSequence.Append(fadeCover.DOFade(0f, 1f));
+        fadeSequence.Play();
+    }
 
     public void StartGame(InputAction.CallbackContext context)
     {
@@ -14,7 +28,8 @@ public class PinballInteraction : InteractionBase
             if (context.performed)
             {
                 player.ClearInteractionText();
-                player.SwitchCameras();
+
+                FadeCameraTransition();
                     
                 _ambience.Stop();
                 StartCoroutine(_gameControl.DelayStartGame(_gameStartDelay));
@@ -29,7 +44,7 @@ public class PinballInteraction : InteractionBase
     {
         if (player != null && playerNearby)
         {
-            player.SwitchCameras();
+            FadeCameraTransition();
 
             _ambience.Play();
 
