@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("HUD Settings")]
     [SerializeField] private TMP_Text _interactionText;
+    [SerializeField] private Canvas HUD;
 
     // Audio Settings
     private AudioSource _audioSource;
@@ -112,11 +113,23 @@ public class PlayerController : MonoBehaviour
     {
         playerInput.actions.FindActionMap("Pinball").Enable();
         playerInput.actions.FindActionMap("Hub World").Disable();
+        TurnOffHUD();
     }
 
     public void DisablePinballMode()
     {
         playerInput.actions.FindActionMap("Pinball").Disable();
         playerInput.actions.FindActionMap("Hub World").Enable();
+        TurnOnHUD();
+    }
+
+    public void TurnOffHUD()
+    {
+        HUD.enabled = false;
+    }
+
+    public void TurnOnHUD()
+    {
+        HUD.enabled = true;
     }
 }
