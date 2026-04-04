@@ -61,6 +61,7 @@ public class UIManager : MonoBehaviour
     {
         SetThreshold(250);
         SetRound(1);
+        SetMoney(0);
     }
     private void SetValue(TMP_Text textElement, int num)
     {
@@ -104,7 +105,7 @@ public class UIManager : MonoBehaviour
 
     public void SetMoney(int amount)
     {
-        _moneyCounterText.text = "$" + amount.ToString();
+        _moneyCounterText.text = $"${amount}";
     }
 
     public void ShowGameInterface(bool state)
