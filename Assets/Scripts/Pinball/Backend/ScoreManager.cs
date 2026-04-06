@@ -4,6 +4,8 @@ using UnityEngine;
 public class ScoreManager : MonoBehaviour
 {
     public UIManager UI;
+
+    [SerializeField] private int _startingScoreThreshold = 100;
     
     private int _currentScore;
     private int _scoreThreshold;
@@ -12,28 +14,34 @@ public class ScoreManager : MonoBehaviour
 
     private void OnEnable()
     {
-        Bumper.OnBumperHit += AddScore;
+        Bumper.OnBumperHit += OnBumperHit;
         GameController.GameStarted += Initialize;
     }
 
     private void OnDisable()
     {
-        Bumper.OnBumperHit -= AddScore;
+        Bumper.OnBumperHit -= OnBumperHit;
         GameController.GameStarted -= Initialize;
     }
 
-    void Initialize()
+    private void Initialize()
     {
         SetScore(0);
-        SetThreshold(250);
+        SetThreshold(_startingScoreThreshold);
     }
 
-    void Update()
+    private void OnBumperHit(int scoreGained)
+    {
+        AddScore(scoreGained);
+        CheckRoundComplete();
+    }
+
+    private void CheckRoundComplete()
     {
         if (_currentScore >= _scoreThreshold)
         {
             ThresholdReached?.Invoke();
-            SetScore(0);
+            //SetScore(0);
             // TODO: non-linear increase?
             SetThreshold(_scoreThreshold + 250);
         }
@@ -59,5 +67,6 @@ public class ScoreManager : MonoBehaviour
     public void SetThreshold(int threshold)
     {
         _scoreThreshold = threshold;
+        UI.SetThreshold(_scoreThreshold);
     }
 }

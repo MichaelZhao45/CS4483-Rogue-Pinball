@@ -32,7 +32,15 @@ public class PinballInteraction : InteractionBase
                 FadeCameraTransition();
                     
                 _ambience.Stop();
-                StartCoroutine(_gameControl.DelayStartGame(_gameStartDelay));
+
+                if (!_gameControl.IsGameInProgress())
+                {
+                    StartCoroutine(_gameControl.DelayStartGame(_gameStartDelay));
+                }
+                else
+                {
+                    _gameControl.EndIntermission();
+                }
 
                 // Change the player's active action map to the pinball mode.
                 player.EnablePinballMode();

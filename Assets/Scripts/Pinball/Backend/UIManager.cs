@@ -1,36 +1,61 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
     public ScoreManager scoreManager;
     public RoundManager roundManager;
 
+    [Header("Canvases")]
     [SerializeField] private Canvas _inventoryCanvas;
     [SerializeField] private Canvas _interfaceCanvas;
     [SerializeField] private Canvas _gameOverCanvas;
     [SerializeField] private Canvas _helpCanvas;
-    [SerializeField] private TMP_Text _roundCounterText;
-    [SerializeField] private TMP_Text _scoreCounterText;
-    [SerializeField] private TMP_Text _scoreThresholdText;
-    [SerializeField] private TMP_Text _ballsRemainingText;
-    [SerializeField] private TMP_Text _finalScoreText;
-    [SerializeField] private TMP_Text _roundReachedText;
-    [SerializeField] private TMP_Text _moneyCounterText;
+    [SerializeField] private Canvas _roundOverCanvas;
+
+    [Header("Game Interface")]
+    [SerializeField] private TMP_Text _roundCounter;
+    [SerializeField] private TMP_Text _scoreCounter;
+    [SerializeField] private TMP_Text _scoreThreshold;
+    [SerializeField] private TMP_Text _ballsRemaining;
+    [SerializeField] private TMP_Text _tokenCounter_Game;
+    
+    [Header("Game Over")]
+    [SerializeField] private TMP_Text _finalScore;
+    [SerializeField] private TMP_Text _roundReached;
+    
+    [Header("Shop")]
+    [SerializeField] private TMP_Text _inventoryCapacity;
+    [SerializeField] private TMP_Text _tokenCounter_Shop;
+    [SerializeField] private TMP_Text _optionName1;
+    [SerializeField] private TMP_Text _optionName2;
+    [SerializeField] private TMP_Text _optionName3;
+    [SerializeField] private TMP_Text _optionPrice1;
+    [SerializeField] private TMP_Text _optionPrice2;
+    [SerializeField] private TMP_Text _optionPrice3;
+    [SerializeField] private Image _optionImage1;
+    [SerializeField] private Image _optionImage2;
+    [SerializeField] private Image _optionImage3;
+
+    [Header("Round Finished")]
+    [SerializeField] private TMP_Text _tokensEarned;
+    [SerializeField] private TMP_Text _ballsRemainingBonus;
+    [SerializeField] private TMP_Text _roundCompleteReward;
 
     private void OnEnable()
     {
         GameController.GameStarted += OnGameStarted;
-        GameController.GameOver += OnGameOver;
-        RoundManager.RoundChanged += SetRound;
+        GameController.GameEnded += OnGameEnded;
+        RoundManager.RoundOver += OnRoundOver;
         BallDropper.BallDropped += OnBallDropped;
     }
 
     private void OnDisable()
     {
         GameController.GameStarted -= OnGameStarted;
-        GameController.GameOver -= OnGameOver;
-        RoundManager.RoundChanged -= SetRound;
+        GameController.GameEnded -= OnGameEnded;
+        RoundManager.RoundOver -= OnRoundOver;
         BallDropper.BallDropped -= OnBallDropped;
     }
 
@@ -42,7 +67,7 @@ public class UIManager : MonoBehaviour
         ShowHelp(true);
     }
 
-    private void OnGameOver()
+    private void OnGameEnded()
     {
         ShowGameInterface(false);
 
@@ -50,6 +75,19 @@ public class UIManager : MonoBehaviour
         SetRoundReached(roundManager.GetCurrentRound());
 
         ShowGameOver(true);
+    }
+
+    private void OnRoundStart()
+    {
+        ShowGameInterface(true);
+        ShowRoundOver(false);
+    }
+
+    private void OnRoundOver()
+    {
+        ShowGameInterface(false);
+        ShowRoundOver(true);
+        //SetRound(roundManager.GetCurrentRound());
     }
 
     private void OnBallDropped()
@@ -61,7 +99,7 @@ public class UIManager : MonoBehaviour
     {
         SetThreshold(250);
         SetRound(1);
-        SetMoney(0);
+        SetTokens(0);
     }
     private void SetValue(TMP_Text textElement, int num)
     {
@@ -75,37 +113,38 @@ public class UIManager : MonoBehaviour
 
     public void SetScore(int score)
     {
-        SetValue(_scoreCounterText, score);
+        SetValue(_scoreCounter, score);
     }
 
     public void SetThreshold(int threshold)
     {
-        SetValue(_scoreThresholdText, threshold);
+        SetValue(_scoreThreshold, threshold);
     }
 
     public void SetRound(int round)
     {
-        SetValue(_roundCounterText, round);
+        SetValue(_roundCounter, round);
     }
 
     public void SetFinalScore(int score)
     {
-        SetValue(_finalScoreText, score);
+        SetValue(_finalScore, score);
     }
 
     public void SetRoundReached(int round)
     {
-        SetValue(_roundReachedText, round);
+        SetValue(_roundReached, round);
     }
 
     public void SetBalls(int ballsRemaining)
     {
-        SetValue(_ballsRemainingText, ballsRemaining);
+        SetValue(_ballsRemaining, ballsRemaining);
     }
 
-    public void SetMoney(int amount)
+    public void SetTokens(int amount)
     {
-        _moneyCounterText.text = $"${amount}";
+        SetValue(_tokenCounter_Game, amount);
+        SetValue(_tokenCounter_Shop, amount);
     }
 
     public void ShowGameInterface(bool state)
@@ -121,6 +160,11 @@ public class UIManager : MonoBehaviour
     public void ShowHelp(bool state)
     {
         SetVisible(_helpCanvas, state);
+    }
+
+    public void ShowRoundOver(bool state)
+    {
+        SetVisible(_roundOverCanvas, state);
     }
 
     public void HideAll()

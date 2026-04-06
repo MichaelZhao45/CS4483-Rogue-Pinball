@@ -10,41 +10,53 @@ public class GameController : MonoBehaviour
     public RoundManager roundManager;
     
     private int _ballsRemaining;
-    public bool gameInProgress = false;
+    private bool _gameInProgress = false;
 
     private int _maxBalls = 2;
 
     // Orchestrator events.
     public static event Action GameStarted;
-    public static event Action GameOver;
-    //public static event Action GameRestarted;
+    public static event Action GameEnded;
+    public static event Action IntermissionStarted;
+    public static event Action IntermissionEnded;
 
     private void OnEnable()
     {
         Drain.OnDrainHit += OnBallDrained;
-        RoundManager.RoundChanged += OnRoundChanged;
+        RoundManager.RoundStart += OnRoundStart;
+        RoundManager.RoundOver += OnRoundOver;
     }
 
     private void OnDisable()
     {
         Drain.OnDrainHit -= OnBallDrained;
-        RoundManager.RoundChanged -= OnRoundChanged;
+        RoundManager.RoundStart -= OnRoundStart;
+        RoundManager.RoundOver -= OnRoundOver;
     }
 
     public IEnumerator DelayStartGame(float time)
     {
-        gameInProgress = true;
+        _gameInProgress = true;
         yield return new WaitForSeconds(time);
         StartGame();
     }
 
     public void StartGame()
     {
-        _ballsRemaining = _maxBalls;
-        UI.SetBalls(_ballsRemaining);
-
-        gameInProgress = true;
+        _gameInProgress = true;
         GameStarted?.Invoke();
+    }
+
+    // Used to begin the intermission period.
+    public void StartIntermission()
+    {
+        IntermissionStarted?.Invoke();
+    }
+
+    // Used to end the intermission period.
+    public void EndIntermission()
+    {
+        IntermissionEnded?.Invoke();
     }
 
     private void OnBallDrained()
@@ -56,15 +68,27 @@ public class GameController : MonoBehaviour
         else HandleGameOver();
     }
 
-    private void OnRoundChanged(int round)
+    private void OnRoundStart()
     {
+        // Reset the ball counter back to full for the next round.
         _ballsRemaining = _maxBalls;
         UI.SetBalls(_ballsRemaining);
     }
 
+    private void OnRoundOver()
+    {
+        // Pause the game for round results and shop intermission.
+        StartIntermission();
+    }
+
     private void HandleGameOver()
     {
-        gameInProgress = false;
-        GameOver?.Invoke();
+        _gameInProgress = false;
+        GameEnded?.Invoke();
+    }
+
+    public bool IsGameInProgress()
+    {
+        return _gameInProgress;
     }
 }

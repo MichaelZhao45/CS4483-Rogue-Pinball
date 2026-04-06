@@ -11,22 +11,17 @@ public class Inventory : MonoBehaviour
 
     void OnEnable()
     {
-        GameController.GameStarted += OnGameStart;
-        GameController.GameOver += OnGameOver;
+        GameController.GameStarted += Reset;
+        GameController.GameEnded += Reset;
     }
 
     void OnDisable()
     {
-        GameController.GameStarted -= OnGameStart;
-        GameController.GameOver -= OnGameOver;
+        GameController.GameStarted -= Reset;
+        GameController.GameEnded -= Reset;
     }
 
-    void OnGameStart()
-    {
-        _money = 0;
-    }
-
-    void OnGameOver()
+    void Reset()
     {
         _money = 0;
     }

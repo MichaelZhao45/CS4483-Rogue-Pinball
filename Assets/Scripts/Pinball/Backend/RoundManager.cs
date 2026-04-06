@@ -10,7 +10,8 @@ public class RoundManager : MonoBehaviour
 
     private int _currentRound;
     
-    public static event Action<int> RoundChanged;
+    public static event Action RoundStart;
+    public static event Action RoundOver;
 
     private void OnEnable()
     {
@@ -28,6 +29,7 @@ public class RoundManager : MonoBehaviour
     {
         _currentRound = 1;
         SetNewCompletionMoney();
+        RoundStart?.Invoke();
     }
 
     private void OnThresholdReached()
@@ -39,7 +41,7 @@ public class RoundManager : MonoBehaviour
     private void IncrementRound()
     {
         _currentRound++;
-        RoundChanged?.Invoke(_currentRound);
+        RoundOver?.Invoke();
     }
 
     public int GetCurrentRound()
