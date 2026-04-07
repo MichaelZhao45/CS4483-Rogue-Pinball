@@ -54,7 +54,7 @@ public class GameController : MonoBehaviour
         _ballsRemaining--;
         UI.SetBalls(_ballsRemaining);
         
-        if (_ballsRemaining >= 0) dropper.SetDropperActive(true);
+        if (_ballsRemaining >= 0) dropper.ActivateDropper();
         else HandleGameOver();
     }
 
@@ -68,8 +68,7 @@ public class GameController : MonoBehaviour
         if (!_gameInProgress)
         {
             Debug.Log("GameController | DelayStart: New game started.");
-            _gameInProgress = true;
-            GameStarted?.Invoke();
+            RestartGame();
         }
         // If a game is already in progress, resume the game.
         else
@@ -77,6 +76,12 @@ public class GameController : MonoBehaviour
             Debug.Log("GameController | DelayStart: Game continued.");
             GameContinued?.Invoke();
         }
+    }
+
+    public void RestartGame()
+    {
+        _gameInProgress = true;
+        GameStarted?.Invoke();
     }
 
     private void HandleGameOver()

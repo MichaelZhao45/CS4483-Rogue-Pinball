@@ -19,17 +19,14 @@ public class BallDropper : MonoBehaviour
 
     void OnEnable()
     {
-        GameController.GameStarted += OnGameStarted;
+        RoundManager.RoundStart += ActivateDropper;
+        RoundManager.RoundOver += DeactivateDropper;
     }
 
     void OnDisable()
     {
-        GameController.GameStarted -= OnGameStarted;
-    }
-
-    private void OnGameStarted()
-    {
-        SetDropperActive(true);
+        RoundManager.RoundStart -= ActivateDropper;
+        RoundManager.RoundOver -= DeactivateDropper;
     }
 
     void Start()
@@ -64,17 +61,23 @@ public class BallDropper : MonoBehaviour
         }
     }
 
-    public void SetDropperActive(bool state)
+    public void ActivateDropper()
     {
-        _isActive = state;
+        _isActive = true;
         _dropperAnchor.SetActive(true);
+    }
+
+    public void DeactivateDropper()
+    {
+        _isActive = false;
+        _dropperAnchor.SetActive(false);
     }
 
     public void ReleaseBall(InputAction.CallbackContext context)
     {
         if (!_isActive) return;
 
-        SetDropperActive(false);
+        DeactivateDropper();
         ballManager.SpawnBall(_dropperAnchor.transform.position);
         _dropperAnchor.SetActive(false);
 

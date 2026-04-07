@@ -76,10 +76,6 @@ public class UIManager : MonoBehaviour
         InitializeText();
         ShowGameInterface(true);
         ShowHelp(true);
-
-        // TODO: put this somewhere else?
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
     }
 
     // Upon a game over.
@@ -91,10 +87,6 @@ public class UIManager : MonoBehaviour
         SetRoundReached(roundManager.GetCurrentRound());
 
         ShowGameOver(true);
-
-        // TODO: put this somewhere else?
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
     }
 
     // At the beginning of any round of an *on-going* run.
@@ -108,10 +100,6 @@ public class UIManager : MonoBehaviour
     {
         ShowGameInterface(false);
         ShowRoundOver(true);
-
-        // TODO: put this somewhere else?
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
     }
 
     private void OnBallDropped()
