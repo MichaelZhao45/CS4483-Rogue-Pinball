@@ -15,11 +15,14 @@ public class GameController : MonoBehaviour
 
     private int _maxBalls = 2;
 
-    // Orchestrator events. Controls the flow of gameplay states.
+    /* Orchestrator events. Controls the flow of gameplay states. */
+
+    // Signals that a new game has been started.
     public static event Action GameStarted;
-    public static event Action GameEnded;
-    public static event Action IntermissionStarted;
-    public static event Action IntermissionEnded;
+    // Signals that the game is over after all balls have been lost.
+    public static event Action GameOver;
+    // Signals that the game has been started again after the intermission period.
+    public static event Action GameContinued;
 
     /* Event Subscriptions */
 
@@ -28,7 +31,6 @@ public class GameController : MonoBehaviour
         Drain.OnDrainHit += OnBallDrained;
 
         RoundManager.RoundStart += OnRoundStart;
-        RoundManager.RoundOver += OnRoundOver;
     }
 
     private void OnDisable()
@@ -36,7 +38,6 @@ public class GameController : MonoBehaviour
         Drain.OnDrainHit -= OnBallDrained;
 
         RoundManager.RoundStart -= OnRoundStart;
-        RoundManager.RoundOver -= OnRoundOver;
     }
 
     /* Event Reactions */
@@ -46,12 +47,6 @@ public class GameController : MonoBehaviour
         // Reset the ball counter back to full for the next round.
         _ballsRemaining = _maxBalls;
         UI.SetBalls(_ballsRemaining);
-    }
-
-    private void OnRoundOver()
-    {
-        // Pause the game for round results and shop intermission.
-        IntermissionStarted?.Invoke();
     }
 
     private void OnBallDrained()
@@ -79,8 +74,8 @@ public class GameController : MonoBehaviour
         // If a game is already in progress, resume the game.
         else
         {
-            Debug.Log("GameController | DelayStart: Game resumed.");
-            IntermissionEnded?.Invoke();
+            Debug.Log("GameController | DelayStart: Game continued.");
+            GameContinued?.Invoke();
         }
     }
 
@@ -88,7 +83,7 @@ public class GameController : MonoBehaviour
     {
         Debug.Log("GameController | HandleGameOver: Game over.");
         _gameInProgress = false;
-        GameEnded?.Invoke();
+        GameOver?.Invoke();
     }
 
     /* Getters and Setters */

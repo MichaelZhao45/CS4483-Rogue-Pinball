@@ -6,6 +6,7 @@ public class Shop : MonoBehaviour
     [SerializeField] private Canvas _shopCanvas;
     [SerializeField] private PlayerController player;
 
+    // TODO: refactor this to not be an event; only AudioController cares.
     public static event Action ShopOpened;
     
     public void Show()

@@ -10,6 +10,7 @@ public class ScoreManager : MonoBehaviour
     private int _currentScore;
     private int _scoreThreshold;
 
+    // Signals that the player has met the current score threshold.
     public static event Action ThresholdReached;
 
     /* Event Subscriptions */
@@ -18,16 +19,16 @@ public class ScoreManager : MonoBehaviour
     {
         Bumper.OnBumperHit += OnBumperHit;
 
-        GameController.GameStarted += Initialize;
-        GameController.IntermissionEnded += Initialize;
+        GameController.GameStarted += Reset;
+        GameController.GameContinued += OnGameContinued;
     }
 
     private void OnDisable()
     {
         Bumper.OnBumperHit -= OnBumperHit;
 
-        GameController.GameStarted -= Initialize;
-        GameController.IntermissionEnded -= Initialize;
+        GameController.GameStarted -= Reset;
+        GameController.GameContinued -= OnGameContinued;
     }
 
     /* Event Reactions */
@@ -36,6 +37,13 @@ public class ScoreManager : MonoBehaviour
     {
         AddScore(scoreGained);
         CheckRoundComplete();
+    }
+
+    private void OnGameContinued()
+    {
+        SetScore(0);
+        // TODO: non-linear increase?
+        SetThreshold(_scoreThreshold + 250);
     }
 
     /* Script-Specific Methods */
@@ -51,12 +59,10 @@ public class ScoreManager : MonoBehaviour
         if (_currentScore >= _scoreThreshold)
         {
             ThresholdReached?.Invoke();
-            // TODO: non-linear increase?
-            SetThreshold(_scoreThreshold + 250);
         }
     }
 
-    private void Initialize()
+    private void Reset()
     {
         SetScore(0);
         SetThreshold(_startingScoreThreshold);
@@ -69,15 +75,15 @@ public class ScoreManager : MonoBehaviour
         return _currentScore;
     }
 
-    public int GetScoreThreshold()
-    {
-        return _scoreThreshold;
-    }
-
     public void SetScore(int newScore)
     {
         _currentScore = newScore;
         UI.SetScore(_currentScore);
+    }
+
+    public int GetScoreThreshold()
+    {
+        return _scoreThreshold;
     }
 
     public void SetThreshold(int threshold)

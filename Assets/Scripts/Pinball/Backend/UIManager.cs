@@ -49,10 +49,9 @@ public class UIManager : MonoBehaviour
     private void OnEnable()
     {
         GameController.GameStarted += OnGameStarted;
-        GameController.GameEnded += OnGameEnded;
-        //GameController.IntermissionStarted += _;
-        GameController.IntermissionEnded += OnRoundStart;
+        GameController.GameOver += OnGameOver;
 
+        RoundManager.RoundStart += OnRoundStart;
         RoundManager.RoundOver += OnRoundOver;
 
         BallDropper.BallDropped += OnBallDropped;
@@ -61,10 +60,9 @@ public class UIManager : MonoBehaviour
     private void OnDisable()
     {
         GameController.GameStarted -= OnGameStarted;
-        GameController.GameEnded -= OnGameEnded;
-        //GameController.IntermissionStarted -= _;
-        GameController.IntermissionEnded -= OnRoundStart;
+        GameController.GameOver -= OnGameOver;
 
+        RoundManager.RoundStart -= OnRoundStart;
         RoundManager.RoundOver -= OnRoundOver;
 
         BallDropper.BallDropped -= OnBallDropped;
@@ -72,14 +70,20 @@ public class UIManager : MonoBehaviour
 
     /* Event Reactions */
 
+    // At the beginning of the first round of a *newly-started* run.
     private void OnGameStarted()
     {
         InitializeText();
         ShowGameInterface(true);
         ShowHelp(true);
+
+        // TODO: put this somewhere else?
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
-    private void OnGameEnded()
+    // Upon a game over.
+    private void OnGameOver()
     {
         ShowGameInterface(false);
 
@@ -87,8 +91,13 @@ public class UIManager : MonoBehaviour
         SetRoundReached(roundManager.GetCurrentRound());
 
         ShowGameOver(true);
+
+        // TODO: put this somewhere else?
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 
+    // At the beginning of any round of an *on-going* run.
     private void OnRoundStart()
     {
         InitializeText();
@@ -99,6 +108,10 @@ public class UIManager : MonoBehaviour
     {
         ShowGameInterface(false);
         ShowRoundOver(true);
+
+        // TODO: put this somewhere else?
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 
     private void OnBallDropped()
@@ -110,6 +123,8 @@ public class UIManager : MonoBehaviour
 
     private void InitializeText()
     {
+        Debug.Log($"UIManager | InitializeText: Setting up UI for round {roundManager.GetCurrentRound()}.");
+
         SetThreshold(scoreManager.GetScoreThreshold());
         SetRound(roundManager.GetCurrentRound());
         // TODO: set it to the player's current token count

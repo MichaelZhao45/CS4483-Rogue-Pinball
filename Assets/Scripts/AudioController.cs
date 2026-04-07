@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(AudioSource))]
@@ -12,21 +11,22 @@ public class AudioController : MonoBehaviour
     [SerializeField] private AudioClip _hubWorldMusic;
     [SerializeField] private AudioClip _shopMusic;
 
-    //[Header("SFX")]
-    //[Serialize] private AudioClip _ballHit;
-
     void OnEnable()
     {
-        GameController.GameStarted += OnGameStarted;
-        GameController.GameEnded += OnGameEnded;
-        Shop.ShopOpened += OnShopOpened;
+        GameController.GameStarted += PlayPinballMusic;
+        GameController.GameContinued += PlayPinballMusic;
+        GameController.GameOver += PlayGameOverMusic;
+
+        Shop.ShopOpened += PlayShopMusic;
     }
 
     void OnDisable()
     {
-        GameController.GameStarted -= OnGameStarted;
-        GameController.GameEnded -= OnGameEnded;
-        Shop.ShopOpened -= OnShopOpened;
+        GameController.GameStarted -= PlayPinballMusic;
+        GameController.GameContinued -= PlayPinballMusic;
+        GameController.GameOver -= PlayGameOverMusic;
+
+        Shop.ShopOpened -= PlayShopMusic;
     }
 
     void Start()
@@ -34,25 +34,25 @@ public class AudioController : MonoBehaviour
         _audioSource = GetComponent<AudioSource>();
     }
 
-    public void OnGameEnded()
+    public void PlayGameOverMusic()
     {
         _audioSource.clip = _gameOverMusic;
         _audioSource.Play();
     }
 
-    public void OnGameStarted()
+    public void PlayPinballMusic()
     {
         _audioSource.clip = _pinballMusic;
         _audioSource.Play();
     }
 
-    public void OnShopOpened()
+    public void PlayShopMusic()
     {
         _audioSource.clip = _shopMusic;
         _audioSource.Play();
     }
 
-    public void OnReturnToHub()
+    public void PlayHubMusic()
     {
         _audioSource.clip = _hubWorldMusic;
         _audioSource.Play();

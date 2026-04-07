@@ -3,11 +3,6 @@ using UnityEngine;
 
 public class RoundManager : MonoBehaviour
 {
-    /*
-    [Header("Backend Controllers/Managers")]
-    [SerializeField] private UIManager UI;
-    */
-    
     [Header("Round Completion Settings")]
     [SerializeField] private int _minCompletionMoney = 3;
     [SerializeField] private int _maxCompletionMoney = 5;
@@ -15,8 +10,11 @@ public class RoundManager : MonoBehaviour
 
     private int _currentRound = 1;
     
-    // Orchestrator events. Other scripts should react to the beginning and ending of rounds.
+    /* Orchestrator events. Other scripts should react to the beginning and ending of rounds. */
+
+    // Signals that the round is set up and ready to begin.
     public static event Action RoundStart;
+    // Signals that the round has been completed, and that the "intermission period" should begin.
     public static event Action RoundOver;
 
     /* Event Subscriptions */
@@ -24,17 +22,17 @@ public class RoundManager : MonoBehaviour
     private void OnEnable()
     {
         GameController.GameStarted += OnGameStart;
-        GameController.IntermissionEnded += OnIntermissionEnded;
+        GameController.GameContinued += OnGameContinued;
 
-        ScoreManager.ThresholdReached += OnThresholdReached;
+        ScoreManager.ThresholdReached += OnScoreThresholdReached;
     }
 
     private void OnDisable()
     {
         GameController.GameStarted -= OnGameStart;
-        GameController.IntermissionEnded -= OnIntermissionEnded;
+        GameController.GameContinued -= OnGameContinued;
 
-        ScoreManager.ThresholdReached -= OnThresholdReached;
+        ScoreManager.ThresholdReached -= OnScoreThresholdReached;
     }
 
     /* Event Reactions */
@@ -47,7 +45,7 @@ public class RoundManager : MonoBehaviour
         InitializeRoundStart();
     }
 
-    private void OnIntermissionEnded()
+    private void OnGameContinued()
     {
         _currentRound++;
 
@@ -56,7 +54,7 @@ public class RoundManager : MonoBehaviour
         InitializeRoundStart();
     }
 
-    private void OnThresholdReached()
+    private void OnScoreThresholdReached()
     {
         RoundOver?.Invoke();
     }
