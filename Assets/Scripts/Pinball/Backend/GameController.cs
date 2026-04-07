@@ -97,4 +97,9 @@ public class GameController : MonoBehaviour
     {
         return _gameInProgress;
     }
+
+    public int getBallsRemaining()
+    {
+        return _ballsRemaining;
+    }
 }

@@ -4,7 +4,7 @@ public class Inventory : MonoBehaviour
 {
     [SerializeField] private RoundManager _roundManager;
     
-    private int _money = 0;
+    private int _tokens = 0;
     [SerializeField] private int _maxInventorySize = 5;
 
     private PowerUp[] _powerups;
@@ -23,24 +23,24 @@ public class Inventory : MonoBehaviour
 
     void Reset()
     {
-        _money = 0;
+        _tokens = 0;
     }
 
-    public void AddMoney(int amount)
+    public void AddTokens(int amount)
     {
-        _money += amount;
+        _tokens += amount;
     }
 
     public void SubtractMoney(int amount)
     {
-        _money -= amount;
+        _tokens -= amount;
 
         // Ensure that the player's money count does not drop under zero.
-        if (_money < 0) _money = 0;
+        if (_tokens < 0) _tokens = 0;
     }
 
-    public int GetMoney()
+    public int GetTokens()
     {
-        return _money;
+        return _tokens;
     }
 }
