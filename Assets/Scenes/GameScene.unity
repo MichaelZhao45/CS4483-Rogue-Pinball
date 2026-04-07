@@ -4936,7 +4936,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 432962660}
         m_TargetAssemblyTypeName: PauseManager, Assembly-CSharp
-        m_MethodName: PauseGame
+        m_MethodName: ResumeGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5756,7 +5756,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 503666349}
         m_TargetAssemblyTypeName: PinballInteraction, Assembly-CSharp
-        m_MethodName: StartGame
+        m_MethodName: Interact
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5768,7 +5768,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 234072914}
         m_TargetAssemblyTypeName: LightSwitchInteraction, Assembly-CSharp
-        m_MethodName: ToggleLightSwitch
+        m_MethodName: Interact
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5780,7 +5780,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 657891577}
         m_TargetAssemblyTypeName: ShopInteraction, Assembly-CSharp
-        m_MethodName: OpenShop
+        m_MethodName: Interact
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

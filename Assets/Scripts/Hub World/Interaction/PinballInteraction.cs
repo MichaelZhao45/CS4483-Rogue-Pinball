@@ -21,7 +21,7 @@ public class PinballInteraction : InteractionBase
         fadeSequence.Play();
     }
 
-    public void StartGame(InputAction.CallbackContext context)
+    public void Interact(InputAction.CallbackContext context)
     {
         if (player != null && playerNearby)
         {
@@ -33,14 +33,9 @@ public class PinballInteraction : InteractionBase
                     
                 _ambience.Stop();
 
-                if (!_gameControl.IsGameInProgress())
-                {
-                    StartCoroutine(_gameControl.DelayStartGame(_gameStartDelay));
-                }
-                else
-                {
-                    _gameControl.EndIntermission();
-                }
+                // If the game has already begun, it will end the intermission and resume the game.
+                // Otherwise, it will start a new game.
+                StartCoroutine(_gameControl.DelayStart(_gameStartDelay));
 
                 // Change the player's active action map to the pinball mode.
                 player.EnablePinballMode();

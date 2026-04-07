@@ -5,7 +5,7 @@ public class ShopInteraction : InteractionBase
 {
     [SerializeField] private Shop shop;
 
-    public void OpenShop(InputAction.CallbackContext context)
+    public void Interact(InputAction.CallbackContext context)
     {
         if (player != null && playerNearby)
         {

@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
+    [Header("Backend Controllers/Managers")]
     public ScoreManager scoreManager;
     public RoundManager roundManager;
 
@@ -43,11 +44,17 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Text _ballsRemainingBonus;
     [SerializeField] private TMP_Text _roundCompleteReward;
 
+    /* Event Subscriptions */
+
     private void OnEnable()
     {
         GameController.GameStarted += OnGameStarted;
         GameController.GameEnded += OnGameEnded;
+        //GameController.IntermissionStarted += _;
+        GameController.IntermissionEnded += OnRoundStart;
+
         RoundManager.RoundOver += OnRoundOver;
+
         BallDropper.BallDropped += OnBallDropped;
     }
 
@@ -55,15 +62,20 @@ public class UIManager : MonoBehaviour
     {
         GameController.GameStarted -= OnGameStarted;
         GameController.GameEnded -= OnGameEnded;
+        //GameController.IntermissionStarted -= _;
+        GameController.IntermissionEnded -= OnRoundStart;
+
         RoundManager.RoundOver -= OnRoundOver;
+
         BallDropper.BallDropped -= OnBallDropped;
     }
+
+    /* Event Reactions */
 
     private void OnGameStarted()
     {
         InitializeText();
         ShowGameInterface(true);
-        ShowGameOver(false);
         ShowHelp(true);
     }
 
@@ -71,7 +83,7 @@ public class UIManager : MonoBehaviour
     {
         ShowGameInterface(false);
 
-        SetFinalScore(scoreManager.GetCurrentScore());
+        SetFinalScore(scoreManager.GetScore());
         SetRoundReached(roundManager.GetCurrentRound());
 
         ShowGameOver(true);
@@ -79,15 +91,14 @@ public class UIManager : MonoBehaviour
 
     private void OnRoundStart()
     {
+        InitializeText();
         ShowGameInterface(true);
-        ShowRoundOver(false);
     }
 
     private void OnRoundOver()
     {
         ShowGameInterface(false);
         ShowRoundOver(true);
-        //SetRound(roundManager.GetCurrentRound());
     }
 
     private void OnBallDropped()
@@ -95,12 +106,18 @@ public class UIManager : MonoBehaviour
         ShowHelp(false);
     }
 
+    /* Script-Specific Methods */
+
     private void InitializeText()
     {
-        SetThreshold(250);
-        SetRound(1);
+        SetThreshold(scoreManager.GetScoreThreshold());
+        SetRound(roundManager.GetCurrentRound());
+        // TODO: set it to the player's current token count
         SetTokens(0);
     }
+
+    /* Getters and Setters */
+
     private void SetValue(TMP_Text textElement, int num)
     {
         textElement.text = num.ToString();
@@ -165,12 +182,5 @@ public class UIManager : MonoBehaviour
     public void ShowRoundOver(bool state)
     {
         SetVisible(_roundOverCanvas, state);
-    }
-
-    public void HideAll()
-    {
-        ShowGameInterface(false);
-        ShowGameOver(false);
-        ShowHelp(false);
     }
 }

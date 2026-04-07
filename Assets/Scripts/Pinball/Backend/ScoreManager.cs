@@ -12,16 +12,48 @@ public class ScoreManager : MonoBehaviour
 
     public static event Action ThresholdReached;
 
+    /* Event Subscriptions */
+
     private void OnEnable()
     {
         Bumper.OnBumperHit += OnBumperHit;
+
         GameController.GameStarted += Initialize;
+        GameController.IntermissionEnded += Initialize;
     }
 
     private void OnDisable()
     {
         Bumper.OnBumperHit -= OnBumperHit;
+
         GameController.GameStarted -= Initialize;
+        GameController.IntermissionEnded -= Initialize;
+    }
+
+    /* Event Reactions */
+
+    private void OnBumperHit(int scoreGained)
+    {
+        AddScore(scoreGained);
+        CheckRoundComplete();
+    }
+
+    /* Script-Specific Methods */
+
+    public void AddScore(int gainedScore)
+    {
+        _currentScore += gainedScore;
+        UI.SetScore(_currentScore);
+    }
+
+    private void CheckRoundComplete()
+    {
+        if (_currentScore >= _scoreThreshold)
+        {
+            ThresholdReached?.Invoke();
+            // TODO: non-linear increase?
+            SetThreshold(_scoreThreshold + 250);
+        }
     }
 
     private void Initialize()
@@ -30,32 +62,16 @@ public class ScoreManager : MonoBehaviour
         SetThreshold(_startingScoreThreshold);
     }
 
-    private void OnBumperHit(int scoreGained)
-    {
-        AddScore(scoreGained);
-        CheckRoundComplete();
-    }
+    /* Getters and Setters */
 
-    private void CheckRoundComplete()
-    {
-        if (_currentScore >= _scoreThreshold)
-        {
-            ThresholdReached?.Invoke();
-            //SetScore(0);
-            // TODO: non-linear increase?
-            SetThreshold(_scoreThreshold + 250);
-        }
-    }
-
-    public int GetCurrentScore()
+    public int GetScore()
     {
         return _currentScore;
     }
 
-    public void AddScore(int gainedScore)
+    public int GetScoreThreshold()
     {
-        _currentScore += gainedScore;
-        UI.SetScore(_currentScore);
+        return _scoreThreshold;
     }
 
     public void SetScore(int newScore)

@@ -15,7 +15,7 @@ public class LightSwitchInteraction : InteractionBase
         _audioSource = GetComponent<AudioSource>();
     }
 
-    public void ToggleLightSwitch(InputAction.CallbackContext context)
+    public void Interact(InputAction.CallbackContext context)
     {
         if (player != null && _fl != null && playerNearby)
         {
