@@ -117,4 +117,9 @@ public class Inventory : MonoBehaviour
     {
         return _maxInventorySize;
     }
+
+    public void AddPowerUp(PowerUp item)
+    {
+
+    }
 }
