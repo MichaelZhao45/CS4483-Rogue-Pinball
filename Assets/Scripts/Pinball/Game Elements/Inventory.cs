@@ -120,6 +120,6 @@ public class Inventory : MonoBehaviour
 
     public void AddPowerUp(PowerUp item)
     {
-
+        Debug.Log("Added Powerup");
     }
 }
