@@ -45,15 +45,4 @@ public class BallManager : MonoBehaviour
     {
         return _currentBallPrefab;
     }
-
-    public void DestroyAllBalls()
-    {
-        GameObject foundBall;
-        while ((foundBall = GameObject.FindWithTag("Pinball")) != null)
-        {
-            Destroy(foundBall);
-        }
-
-        Debug.Log("All balls destroyed.");
-    }
 }

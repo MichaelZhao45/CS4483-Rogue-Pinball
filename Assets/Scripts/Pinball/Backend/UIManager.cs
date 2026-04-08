@@ -7,6 +7,8 @@ public class UIManager : MonoBehaviour
     [Header("Backend Controllers/Managers")]
     public ScoreManager scoreManager;
     public RoundManager roundManager;
+    public Inventory playerInventory;
+    public GameController gameController;
 
     [Header("Canvases")]
     [SerializeField] private Canvas _inventoryCanvas;
@@ -76,10 +78,6 @@ public class UIManager : MonoBehaviour
         InitializeText();
         ShowGameInterface(true);
         ShowHelp(true);
-
-        // TODO: put this somewhere else?
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
     }
 
     // Upon a game over.
@@ -91,10 +89,6 @@ public class UIManager : MonoBehaviour
         SetRoundReached(roundManager.GetCurrentRound());
 
         ShowGameOver(true);
-
-        // TODO: put this somewhere else?
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
     }
 
     // At the beginning of any round of an *on-going* run.
@@ -107,11 +101,12 @@ public class UIManager : MonoBehaviour
     private void OnRoundOver()
     {
         ShowGameInterface(false);
-        ShowRoundOver(true);
 
-        // TODO: put this somewhere else?
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
+        SetBallsBonus(gameController.getBallsRemaining() * 50);
+        SetRoundReward(scoreManager.GetScore());
+        SetTokensEarned(scoreManager.GetScore() + (gameController.getBallsRemaining() * 50));
+
+        ShowRoundOver(true);
     }
 
     private void OnBallDropped()
@@ -127,8 +122,7 @@ public class UIManager : MonoBehaviour
 
         SetThreshold(scoreManager.GetScoreThreshold());
         SetRound(roundManager.GetCurrentRound());
-        // TODO: set it to the player's current token count
-        SetTokens(0);
+        SetTokens(playerInventory.GetTokens());
     }
 
     /* Getters and Setters */
@@ -197,5 +191,20 @@ public class UIManager : MonoBehaviour
     public void ShowRoundOver(bool state)
     {
         SetVisible(_roundOverCanvas, state);
+    }
+
+    public void SetTokensEarned(int amount)
+    {
+        SetValue(_tokensEarned, amount);
+    }
+
+    public void SetBallsBonus(int amount)
+    {
+        SetValue(_ballsRemainingBonus, amount);
+    }
+
+    public void SetRoundReward(int amount)
+    {
+        SetValue(_roundCompleteReward, amount);
     }
 }

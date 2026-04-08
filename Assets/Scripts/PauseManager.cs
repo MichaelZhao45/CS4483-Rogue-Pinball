@@ -1,18 +1,19 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 public class PauseManager : MonoBehaviour
 {
-    [SerializeField] private GameObject pausePanel;
+    [SerializeField] private GameObject PauseMenuPanel;
     private bool isPaused = false;
 
     private void Start()
     {
         Time.timeScale = 1f;
 
-        if (pausePanel != null)
-            pausePanel.SetActive(false);
+        if (PauseMenuPanel != null)     
+            PauseMenuPanel.SetActive(false);
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -34,8 +35,8 @@ public class PauseManager : MonoBehaviour
         isPaused = true;
         Time.timeScale = 0f;
 
-        if (pausePanel != null)
-            pausePanel.SetActive(true);
+        if (PauseMenuPanel != null)
+            PauseMenuPanel.SetActive(true);
 
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
@@ -46,8 +47,8 @@ public class PauseManager : MonoBehaviour
         isPaused = false;
         Time.timeScale = 1f;
 
-        if (pausePanel != null)
-            pausePanel.SetActive(false);
+        if (PauseMenuPanel != null)
+            PauseMenuPanel.SetActive(false);
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -66,6 +67,6 @@ public class PauseManager : MonoBehaviour
     {
         Time.timeScale = 1f;
         isPaused = false;
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene("Scenes/MainMenuScene");
     }
 }
