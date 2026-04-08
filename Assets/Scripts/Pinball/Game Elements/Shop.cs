@@ -40,4 +40,37 @@ public class Shop : MonoBehaviour
         _shopCanvas.gameObject.SetActive(false);
         player.TurnOnHUD();
     }
+
+    public void purchaseItem1()
+    {
+        PowerUp slot1 = shopOptions[0].GetComponent<PowerUp>();
+        if (playerInventory.GetTokens() >= slot1.getCost())
+        {
+            playerInventory.SubtractTokens(slot1.getCost());
+            UI.SetTokens(playerInventory.GetTokens());
+            playerInventory.AddPowerUp(shopOptions[0].GetComponent<PowerUp>());
+        }
+    }
+
+    public void purchaseItem2()
+    {
+        PowerUp slot2 = shopOptions[1].GetComponent<PowerUp>();
+        if (playerInventory.GetTokens() >= slot2.getCost())
+        {
+            playerInventory.SubtractTokens(slot2.getCost());
+            UI.SetTokens(playerInventory.GetTokens());
+            playerInventory.AddPowerUp(shopOptions[1].GetComponent<PowerUp>());
+        }
+    }
+
+    public void purchaseItem3()
+    {
+        PowerUp slot3 = shopOptions[2].GetComponent<PowerUp>();
+        if (playerInventory.GetTokens() >= slot3.getCost())
+        {
+            playerInventory.SubtractTokens(slot3.getCost());
+            UI.SetTokens(playerInventory.GetTokens());
+            playerInventory.AddPowerUp(shopOptions[2].GetComponent<PowerUp>());
+        }
+    }
 }
