@@ -68,14 +68,36 @@ public class Inventory : MonoBehaviour
 
     private void SelectSlot(int index)
     {
+        _powerupComponents = GetComponentsInChildren<PowerUp>();
+        
         if (index >= _powerupComponents.Length || index >= _maxInventorySize) return;
 
+        // 1. Handle Highlight (The background "Cell")
         if (_currentlySelectedIndex != -1)
             _uiSlots[_currentlySelectedIndex].color = _normalColor;
 
         _currentlySelectedIndex = index;
         _uiSlots[_currentlySelectedIndex].color = _highlightColor;
 
+        // 2. Handle the Icon Overlap
+        Texture2D tex = _powerupComponents[index].getImage();
+        
+        // Find the 'Icon' child of the current slot
+        Image iconImage = _uiSlots[index].transform.Find("Icon").GetComponent<Image>();
+
+        if (tex != null && iconImage != null)
+        {
+            // Convert Texture2D to Sprite
+            Rect rect = new Rect(0, 0, tex.width, tex.height);
+            iconImage.sprite = Sprite.Create(tex, rect, new Vector2(0.5f, 0.5f));
+            iconImage.enabled = true; // Show icon
+        }
+        else if (iconImage != null)
+        {
+            iconImage.enabled = false; // Hide icon if slot is empty
+        }
+
+        // 3. Update Description
         if (_descriptionText != null)
             _descriptionText.text = _powerupComponents[index].getDescription();
     }
