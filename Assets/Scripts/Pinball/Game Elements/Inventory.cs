@@ -120,6 +120,38 @@ public class Inventory : MonoBehaviour
 
     public void AddPowerUp(PowerUp item)
     {
+        for (int i = 0; i < _powerupComponents.Length; i++)
+        {
+            if (string.IsNullOrEmpty(_powerupComponents[i].getName()))
+            {
+                _powerupComponents[i].Initialize(
+                    item.getName(), 
+                    item.getDescription(), 
+                    item.getImage(), 
+                    item.isConsumable()
+                );
 
+                UpdateSlotIcon(i, item.getImage());
+                
+                return;
+            }
+        }
+    }
+
+    private void UpdateSlotIcon(int index, Sprite img)
+    {
+        Transform iconTransform = _uiSlots[index].transform.Find("Icon");
+        if (iconTransform == null) return;
+
+        Image iconImage = iconTransform.GetComponent<Image>();
+        if (img != null)
+        {
+            iconImage.sprite = img;
+            iconImage.enabled = true;
+        }
+        else
+        {
+            iconImage.enabled = false;
+        }
     }
 }

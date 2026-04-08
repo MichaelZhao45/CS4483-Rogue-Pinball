@@ -8,6 +8,14 @@ public class PowerUp : MonoBehaviour
     [SerializeField] private int _cost;
     [SerializeField] private bool _consumable;
 
+    public void Initialize(string name, string desc, Sprite img, bool consumable)
+    {
+        _name = name;
+        _description = desc;
+        _image = img;
+        _consumable = consumable;
+    }
+
     public string getName()
     {
         return _name;
