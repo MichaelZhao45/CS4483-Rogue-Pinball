@@ -153,6 +153,5 @@ public class Inventory : MonoBehaviour
         {
             iconImage.enabled = false;
         }
-        Debug.Log("Added Powerup");
     }
 }
