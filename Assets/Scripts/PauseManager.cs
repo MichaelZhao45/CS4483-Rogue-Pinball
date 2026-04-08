@@ -54,13 +54,11 @@ public class PauseManager : MonoBehaviour
         Cursor.visible = false;
     }
 
-    public void RestartGame()
+    public void QuitGame()
     {
-        Time.timeScale = 1f;
-        isPaused = false;
+        Debug.Log("Quit Game");
 
-        Scene current = SceneManager.GetActiveScene();
-        SceneManager.LoadScene(current.buildIndex);
+        Application.Quit();
     }
 
     public void GoToMainMenu()
