@@ -112,4 +112,9 @@ public class Inventory : MonoBehaviour
     {
         return _tokens;
     }
+
+    public int GetInventorySize()
+    {
+        return _maxInventorySize;
+    }
 }

@@ -4,7 +4,7 @@ public class PowerUp : MonoBehaviour
 {
     [SerializeField] private string _name;
     [SerializeField] private string _description;
-    [SerializeField] private Texture2D _image;
+    [SerializeField] private Sprite _image;
     [SerializeField] private int _cost;
     [SerializeField] private bool _consumable;
 
@@ -18,7 +18,7 @@ public class PowerUp : MonoBehaviour
         return _description;
     }
 
-    public Texture2D getImage()
+    public Sprite getImage()
     {
         return _image;
     }

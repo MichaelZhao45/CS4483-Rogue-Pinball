@@ -1,4 +1,5 @@
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -213,5 +214,22 @@ public class UIManager : MonoBehaviour
     public void SetRoundReward(int amount)
     {
         SetValue(_roundCompleteReward, amount);
+    }
+
+    public void SetShop(GameObject[] slots)
+    {
+        _optionName1.text = slots[0].GetComponent<PowerUp>().getName();
+        _optionName2.text = slots[1].GetComponent<PowerUp>().getName();
+        _optionName3.text = slots[2].GetComponent<PowerUp>().getName();
+
+        SetValue(_optionPrice1, slots[0].GetComponent<PowerUp>().getCost());
+        SetValue(_optionPrice2, slots[1].GetComponent<PowerUp>().getCost());
+        SetValue(_optionPrice3, slots[2].GetComponent<PowerUp>().getCost());
+
+        _optionImage1.sprite = slots[0].GetComponent<PowerUp>().getImage();
+        _optionImage2.sprite = slots[1].GetComponent<PowerUp>().getImage();
+        _optionImage3.sprite = slots[2].GetComponent<PowerUp>().getImage();
+
+        SetValue(_inventoryCapacity, playerInventory.GetInventorySize());
     }
 }
