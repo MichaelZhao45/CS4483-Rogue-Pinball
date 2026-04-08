@@ -40,6 +40,30 @@ public class Inventory : MonoBehaviour
         if (Keyboard.current.digit3Key.wasPressedThisFrame) SelectSlot(2);
         if (Keyboard.current.digit4Key.wasPressedThisFrame) SelectSlot(3);
         if (Keyboard.current.digit5Key.wasPressedThisFrame) SelectSlot(4);
+        
+        if (Keyboard.current.eKey.wasPressedThisFrame)
+        {
+            UseSelectedItem();
+        }
+    }
+
+    private void UseSelectedItem()
+    {
+        if (_currentlySelectedIndex != -1 && _currentlySelectedIndex < _powerupComponents.Length)
+        {
+            PowerUp selectedPowerUp = _powerupComponents[_currentlySelectedIndex];
+
+            if (selectedPowerUp != null)
+            {
+                Debug.Log("Using power-up: " + selectedPowerUp.getName());
+                selectedPowerUp.OnUse();
+
+                if (selectedPowerUp.isConsumable())
+                {
+                    // Logic to remove item or clear slot could go here
+                }
+            }
+        }
     }
 
     private void SelectSlot(int index)
