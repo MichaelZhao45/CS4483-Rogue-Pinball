@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class CloneScript : PowerUp
 {
-    void OnUse()
+    public override void OnUse()
     {
         //inventoryManager should call this function upon being consumed
         //if pinball map is being used, and game is currently being played:

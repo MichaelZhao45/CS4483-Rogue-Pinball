@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1105113249274562234}
-  - component: {fileID: 8665045731862669144}
   - component: {fileID: 266359772977469698}
   m_Layer: 0
   m_Name: ClonePowerUp
@@ -33,22 +32,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8665045731862669144
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3845451780141733864}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8720077f37c1df459aaaf73173ccc18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PowerUp
-  name: Clone
-  description: Creates a clone of the ball when consumed.
-  image: {fileID: 0}
-  cost: 250
 --- !u!114 &266359772977469698
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61,3 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcf0614bc0d09634cbba61964db09818, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CloneScript
+  _name: Clone
+  _description: Splits the ball into 2!
+  _image: {fileID: 2800000, guid: f7635f885659db24fb7e554f96e6eea8, type: 3}
+  _cost: 150
+  _consumable: 1
