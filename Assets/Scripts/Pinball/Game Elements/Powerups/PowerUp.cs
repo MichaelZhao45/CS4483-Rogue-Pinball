@@ -2,29 +2,29 @@ using UnityEngine;
 
 public class PowerUp : MonoBehaviour
 {
-    [SerializeField] private string name;
-    [SerializeField] private string description;
-    [SerializeField] private Texture2D image;
-    [SerializeField] private int cost;
+    [SerializeField] private string _name;
+    [SerializeField] private string _description;
+    [SerializeField] private Texture2D _image;
+    [SerializeField] private int _cost;
 
     public string getName()
     {
-        return name;
+        return _name;
     }
 
     public string getDescription()
     {
-        return description;
+        return _description;
     }
 
     public Texture2D getImage()
     {
-        return image;
+        return _image;
     }
 
     public int getCost()
     {
-        return cost;
+        return _cost;
     }
 
 }
