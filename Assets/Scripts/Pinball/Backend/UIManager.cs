@@ -23,6 +23,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Text _scoreThreshold;
     [SerializeField] private TMP_Text _ballsRemaining;
     [SerializeField] private TMP_Text _tokenCounter_Game;
+    [SerializeField] private TMP_Text _tokenCounter_Hub;
     
     [Header("Game Over")]
     [SerializeField] private TMP_Text _finalScore;
@@ -75,9 +76,13 @@ public class UIManager : MonoBehaviour
     // At the beginning of the first round of a *newly-started* run.
     private void OnGameStarted()
     {
-        InitializeText();
         ShowGameInterface(true);
         ShowHelp(true);
+    }
+
+    private void Awake()
+    {
+        InitializeText();
     }
 
     // Upon a game over.
@@ -171,6 +176,7 @@ public class UIManager : MonoBehaviour
     {
         SetValue(_tokenCounter_Game, amount);
         SetValue(_tokenCounter_Shop, amount);
+        SetValue(_tokenCounter_Hub, amount);
     }
 
     public void ShowGameInterface(bool state)
@@ -196,6 +202,7 @@ public class UIManager : MonoBehaviour
     public void SetTokensEarned(int amount)
     {
         SetValue(_tokensEarned, amount);
+        SetTokens(playerInventory.GetTokens() + amount);
     }
 
     public void SetBallsBonus(int amount)

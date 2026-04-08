@@ -2963,10 +2963,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8720077f37c1df459aaaf73173ccc18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PowerUp
-  name: 
-  description: 
-  image: {fileID: 0}
-  cost: 0
+  _name: 
+  _description: 
+  _image: {fileID: 0}
+  _cost: 0
 --- !u!1 &301157382
 GameObject:
   m_ObjectHideFlags: 0
@@ -3338,10 +3338,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8720077f37c1df459aaaf73173ccc18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PowerUp
-  name: 
-  description: 
-  image: {fileID: 0}
-  cost: 0
+  _name: 
+  _description: 
+  _image: {fileID: 0}
+  _cost: 0
 --- !u!1 &371638266
 GameObject:
   m_ObjectHideFlags: 0
@@ -4617,6 +4617,7 @@ RectTransform:
   m_Children:
   - {fileID: 1105334070}
   - {fileID: 583609604}
+  - {fileID: 1467445128}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -6950,7 +6951,7 @@ GameObject:
   - component: {fileID: 583609606}
   - component: {fileID: 583609605}
   m_Layer: 5
-  m_Name: Money Text
+  m_Name: Token Header Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6995,7 +6996,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Tokens: 0'
+  m_text: 'Tokens:
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9a14a8a1184c5f14fbce3338ea4d7a35, type: 2}
   m_sharedMaterial: {fileID: 1260715531048141648, guid: 9a14a8a1184c5f14fbce3338ea4d7a35, type: 2}
@@ -7163,10 +7166,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8720077f37c1df459aaaf73173ccc18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PowerUp
-  name: 
-  description: 
-  image: {fileID: 0}
-  cost: 0
+  _name: 
+  _description: 
+  _image: {fileID: 0}
+  _cost: 0
 --- !u!1 &589332320
 GameObject:
   m_ObjectHideFlags: 0
@@ -9963,10 +9966,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8720077f37c1df459aaaf73173ccc18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PowerUp
-  name: 
-  description: 
-  image: {fileID: 0}
-  cost: 0
+  _name: 
+  _description: 
+  _image: {fileID: 0}
+  _cost: 0
 --- !u!1 &918388176
 GameObject:
   m_ObjectHideFlags: 0
@@ -12163,10 +12166,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8720077f37c1df459aaaf73173ccc18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PowerUp
-  name: 
-  description: 
-  image: {fileID: 0}
-  cost: 0
+  _name: 
+  _description: 
+  _image: {fileID: 0}
+  _cost: 0
 --- !u!1 &1133763951
 GameObject:
   m_ObjectHideFlags: 0
@@ -12844,10 +12847,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8720077f37c1df459aaaf73173ccc18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PowerUp
-  name: 
-  description: 
-  image: {fileID: 0}
-  cost: 0
+  _name: 
+  _description: 
+  _image: {fileID: 0}
+  _cost: 0
 --- !u!1 &1180651480
 GameObject:
   m_ObjectHideFlags: 0
@@ -14492,10 +14495,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8720077f37c1df459aaaf73173ccc18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PowerUp
-  name: 
-  description: 
-  image: {fileID: 0}
-  cost: 0
+  _name: 
+  _description: 
+  _image: {fileID: 0}
+  _cost: 0
 --- !u!1 &1454930308
 GameObject:
   m_ObjectHideFlags: 0
@@ -14864,6 +14867,143 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3970283553704144063, guid: 5f552e6b8f41efe42a525645ee1951ce, type: 3}
   m_PrefabInstance: {fileID: 1461893082}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1467445127
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1467445128}
+  - component: {fileID: 1467445130}
+  - component: {fileID: 1467445129}
+  m_Layer: 5
+  m_Name: Token Text
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1467445128
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1467445127}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 434013487}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -437, y: 362}
+  m_SizeDelta: {x: 200, y: 50}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1467445129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1467445127}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: (amount)
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 9a14a8a1184c5f14fbce3338ea4d7a35, type: 2}
+  m_sharedMaterial: {fileID: 1260715531048141648, guid: 9a14a8a1184c5f14fbce3338ea4d7a35, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4280118301
+  m_fontColor: {r: 0.1137255, g: 0.42352945, b: 0.1137255, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 36
+  m_fontSizeBase: 36
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_characterHorizontalScale: 1
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_TextWrappingMode: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 0
+  m_ActiveFontFeatures: 6e72656b
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_EmojiFallbackSupport: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &1467445130
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1467445127}
+  m_CullTransparentMesh: 1
 --- !u!1 &1477991240
 GameObject:
   m_ObjectHideFlags: 0
@@ -15447,6 +15587,7 @@ GameObject:
   - component: {fileID: 1494346996}
   - component: {fileID: 1494346995}
   - component: {fileID: 1494347001}
+  - component: {fileID: 1494347002}
   m_Layer: 0
   m_Name: GameBoard
   m_TagString: Untagged
@@ -15548,6 +15689,7 @@ MonoBehaviour:
   _scoreThreshold: {fileID: 75884458}
   _ballsRemaining: {fileID: 230007542}
   _tokenCounter_Game: {fileID: 1477991242}
+  _tokenCounter_Hub: {fileID: 1467445129}
   _finalScore: {fileID: 788437903}
   _roundReached: {fileID: 1933219001}
   _inventoryCapacity: {fileID: 520046834}
@@ -15734,6 +15876,20 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1494347002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1494346990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f47ae4d061fec147bf457c6b25c292c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TokenManager
+  playerInventory: {fileID: 529207620}
+  tokensEarned: {fileID: 1631603861}
 --- !u!4 &1521141796 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: d784b016a2b174543978f0323e0eee7c, type: 3}
@@ -15861,6 +16017,18 @@ MonoBehaviour:
       - m_Target: {fileID: 1347786196}
         m_TargetAssemblyTypeName: CursorManager, Assembly-CSharp
         m_MethodName: Lock
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1494347002}
+        m_TargetAssemblyTypeName: TokenManager, Assembly-CSharp
+        m_MethodName: DispenseTokens
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -16423,10 +16591,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8720077f37c1df459aaaf73173ccc18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PowerUp
-  name: 
-  description: 
-  image: {fileID: 0}
-  cost: 0
+  _name: 
+  _description: 
+  _image: {fileID: 0}
+  _cost: 0
 --- !u!1 &1571615580
 GameObject:
   m_ObjectHideFlags: 0
@@ -19356,10 +19524,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8720077f37c1df459aaaf73173ccc18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PowerUp
-  name: 
-  description: 
-  image: {fileID: 0}
-  cost: 0
+  _name: 
+  _description: 
+  _image: {fileID: 0}
+  _cost: 0
 --- !u!1 &1887373372
 GameObject:
   m_ObjectHideFlags: 0
