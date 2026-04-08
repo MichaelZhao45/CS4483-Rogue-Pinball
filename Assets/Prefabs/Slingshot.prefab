@@ -126,9 +126,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5115e35ceb886ae459560fb3c8c5e2fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bumper
+  _audio: {fileID: 956114767516352292}
   _strength: 10
   _pointsEarned: 0
-  _audio: {fileID: 0}
 --- !u!82 &956114767516352292
 AudioSource:
   m_ObjectHideFlags: 0
