@@ -12,7 +12,6 @@ public class UIManager : MonoBehaviour
     public GameController gameController;
 
     [Header("Canvases")]
-    [SerializeField] private Canvas _inventoryCanvas;
     [SerializeField] private Canvas _interfaceCanvas;
     [SerializeField] private Canvas _gameOverCanvas;
     [SerializeField] private Canvas _helpCanvas;

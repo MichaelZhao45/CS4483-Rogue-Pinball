@@ -10,6 +10,8 @@ public class ScoreManager : MonoBehaviour
     private int _currentScore;
     private int _scoreThreshold;
 
+    private int _scoreMultiplier = 1;
+
     // Signals that the player has met the current score threshold.
     public static event Action ThresholdReached;
 
@@ -35,7 +37,7 @@ public class ScoreManager : MonoBehaviour
 
     private void OnBumperHit(int scoreGained)
     {
-        AddScore(scoreGained);
+        AddScore(scoreGained * _scoreMultiplier);
         CheckRoundComplete();
     }
 
@@ -54,6 +56,11 @@ public class ScoreManager : MonoBehaviour
         UI.SetScore(_currentScore);
     }
 
+    public void AddMultiplier(int increase)
+    {
+        _scoreMultiplier += increase;
+    }
+
     private void CheckRoundComplete()
     {
         if (_currentScore >= _scoreThreshold)
@@ -64,6 +71,7 @@ public class ScoreManager : MonoBehaviour
 
     private void Reset()
     {
+        _scoreMultiplier = 1;
         SetScore(0);
         SetThreshold(_startingScoreThreshold);
     }
