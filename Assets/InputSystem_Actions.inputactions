@@ -3,7 +3,7 @@
     "name": "InputSystem_Actions",
     "maps": [
         {
-            "name": "Player",
+            "name": "Hub World",
             "id": "df70fa95-8a34-4494-b137-73ab6b9c7d37",
             "actions": [
                 {
@@ -30,7 +30,7 @@
                     "id": "852140f2-7766-474d-8707-702459ba45f3",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": "Hold",
+                    "interactions": "",
                     "initialStateCheck": false
                 }
             ],
@@ -745,15 +745,6 @@
             "id": "46b7df32-b790-48e2-8bde-363f2a9fa2f0",
             "actions": [
                 {
-                    "name": "Start Game",
-                    "type": "Button",
-                    "id": "92989dbf-5365-4a65-87df-3ce8a831bfba",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "LeftFlipper",
                     "type": "Button",
                     "id": "4f777710-d552-4931-aa6d-7eb3df64e1c2",
@@ -772,7 +763,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Launch",
+                    "name": "Release Ball",
                     "type": "Button",
                     "id": "0cc89dfc-44fb-4690-bfaf-81c764a31c0e",
                     "expectedControlType": "",
@@ -795,6 +786,17 @@
                 },
                 {
                     "name": "",
+                    "id": "5c42607d-267e-4b21-bafa-aba26e8f7465",
+                    "path": "<Keyboard>/leftArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LeftFlipper",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "b8fdb39b-dd01-4e07-b5b7-aa910cc97330",
                     "path": "<Keyboard>/d",
                     "interactions": "",
@@ -806,23 +808,23 @@
                 },
                 {
                     "name": "",
-                    "id": "a8ae024c-e9c4-4f8a-a8f1-b5c619315361",
-                    "path": "<Keyboard>/space",
+                    "id": "10fc9858-af9d-49b0-8a57-9b9e97cb142d",
+                    "path": "<Keyboard>/rightArrow",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";Keyboard&Mouse",
-                    "action": "Launch",
+                    "groups": "",
+                    "action": "RightFlipper",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "7e97608d-4c39-48a8-ac79-8557309bae1b",
-                    "path": "<Keyboard>/e",
+                    "id": "a8ae024c-e9c4-4f8a-a8f1-b5c619315361",
+                    "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
-                    "action": "Start Game",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "Release Ball",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
