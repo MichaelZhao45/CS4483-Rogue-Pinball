@@ -43,6 +43,7 @@ public class Shop : MonoBehaviour
 
     public void purchaseItem1()
     {
+        Debug.Log($"[SHOP] Purchase button clicked. Sending item to: {playerInventory.gameObject.name}");
         PowerUp slot1 = shopOptions[0].GetComponent<PowerUp>();
         if (playerInventory.GetTokens() >= slot1.getCost())
         {

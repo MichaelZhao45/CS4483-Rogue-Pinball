@@ -10,24 +10,37 @@ public class Inventory : MonoBehaviour
     // UI Fields
     [SerializeField] private TextMeshProUGUI _descriptionText;
     [SerializeField] private Color _highlightColor = Color.yellow;
-    [SerializeField] private Color _normalColor = Color.white;
+    private Color _aquaBlue;
 
-    // Currency (Merged to use Tokens)
-    private int _tokens = 0;
-    [SerializeField] private int _maxInventorySize = 5;
+    // Settings
+    [SerializeField] private int _maxInventorySize = 9;
 
-    private PowerUp[] _powerupComponents;
-    private Image[] _uiSlots;
+    private PowerUp[] _powerupComponents; 
+    private Image[] _uiIcons;
+    private Image[] _slotBackgrounds;
     private int _currentlySelectedIndex = -1;
 
-    void Start()
+    void Awake()
     {
-        _powerupComponents = GetComponentsInChildren<PowerUp>();
-        _uiSlots = new Image[_powerupComponents.Length];
+        ColorUtility.TryParseHtmlString("#04CFE9", out _aquaBlue);
+
+        _powerupComponents = GetComponentsInChildren<PowerUp>(true);
+        
+        _uiIcons = new Image[_powerupComponents.Length];
+        _slotBackgrounds = new Image[_powerupComponents.Length];
 
         for (int i = 0; i < _powerupComponents.Length; i++)
         {
-            _uiSlots[i] = _powerupComponents[i].GetComponent<Image>();
+            _uiIcons[i] = _powerupComponents[i].GetComponent<Image>();
+            _slotBackgrounds[i] = _powerupComponents[i].transform.parent.GetComponent<Image>();
+
+            if (_slotBackgrounds[i] != null) _slotBackgrounds[i].color = _aquaBlue;
+            
+            if (_uiIcons[i] != null)
+            {
+                _uiIcons[i].sprite = null;
+                _uiIcons[i].color = new Color(0, 0, 0, 0); 
+            }
         }
     }
 
@@ -40,6 +53,10 @@ public class Inventory : MonoBehaviour
         if (Keyboard.current.digit3Key.wasPressedThisFrame) SelectSlot(2);
         if (Keyboard.current.digit4Key.wasPressedThisFrame) SelectSlot(3);
         if (Keyboard.current.digit5Key.wasPressedThisFrame) SelectSlot(4);
+        if (Keyboard.current.digit6Key.wasPressedThisFrame) SelectSlot(5);
+        if (Keyboard.current.digit7Key.wasPressedThisFrame) SelectSlot(6);
+        if (Keyboard.current.digit8Key.wasPressedThisFrame) SelectSlot(7);
+        if (Keyboard.current.digit9Key.wasPressedThisFrame) SelectSlot(8);
         
         if (Keyboard.current.eKey.wasPressedThisFrame)
         {
@@ -47,75 +64,25 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    private void UseSelectedItem()
-    {
-        if (_currentlySelectedIndex != -1 && _currentlySelectedIndex < _powerupComponents.Length)
-        {
-            PowerUp selectedPowerUp = _powerupComponents[_currentlySelectedIndex];
-
-            if (selectedPowerUp != null)
-            {
-                Debug.Log("Using power-up: " + selectedPowerUp.getName());
-                selectedPowerUp.OnUse();
-
-                if (selectedPowerUp.isConsumable())
-                {
-                    // Logic to remove item or clear slot could go here
-                }
-            }
-        }
-    }
-
     private void SelectSlot(int index)
     {
-        if (index >= _powerupComponents.Length || index >= _maxInventorySize) return;
+        if (index < 0 || index >= _powerupComponents.Length || index >= _maxInventorySize) return;
 
-        if (_currentlySelectedIndex != -1)
-            _uiSlots[_currentlySelectedIndex].color = _normalColor;
+        if (_currentlySelectedIndex != -1 && _currentlySelectedIndex < _slotBackgrounds.Length)
+        {
+            if (_slotBackgrounds[_currentlySelectedIndex] != null)
+                _slotBackgrounds[_currentlySelectedIndex].color = _aquaBlue;
+        }
 
         _currentlySelectedIndex = index;
-        _uiSlots[_currentlySelectedIndex].color = _highlightColor;
+        if (_slotBackgrounds[_currentlySelectedIndex] != null)
+            _slotBackgrounds[_currentlySelectedIndex].color = _highlightColor;
 
         if (_descriptionText != null)
-            _descriptionText.text = _powerupComponents[index].getDescription();
-    }
-
-    void OnEnable()
-    {
-        GameController.GameStarted += Reset;
-        GameController.GameOver += Reset;
-    }
-
-    void OnDisable()
-    {
-        GameController.GameStarted -= Reset;
-        GameController.GameOver -= Reset;
-    }
-
-    void Reset()
-    {
-        _tokens = 0;
-    }
-
-    public void AddTokens(int amount)
-    {
-        _tokens += amount;
-    }
-
-    public void SubtractTokens(int amount)
-    {
-        _tokens -= amount;
-        if (_tokens < 0) _tokens = 0;
-    }
-
-    public int GetTokens()
-    {
-        return _tokens;
-    }
-
-    public int GetInventorySize()
-    {
-        return _maxInventorySize;
+        {
+            string desc = _powerupComponents[index].getDescription();
+            _descriptionText.text = string.IsNullOrEmpty(desc) ? "Empty Slot" : desc;
+        }
     }
 
     public void AddPowerUp(PowerUp item)
@@ -131,27 +98,54 @@ public class Inventory : MonoBehaviour
                     item.isConsumable()
                 );
 
-                UpdateSlotIcon(i, item.getImage());
+                UpdateSlotIcon(i, _powerupComponents[i].getImage()); 
                 
                 return;
             }
         }
+        Debug.LogWarning("Inventory is full!");
     }
 
     private void UpdateSlotIcon(int index, Sprite img)
     {
-        Transform iconTransform = _uiSlots[index].transform.Find("Icon");
-        if (iconTransform == null) return;
+        if (index < 0 || index >= _uiIcons.Length || _uiIcons[index] == null) return;
 
-        Image iconImage = iconTransform.GetComponent<Image>();
         if (img != null)
         {
-            iconImage.sprite = img;
-            iconImage.enabled = true;
+            _uiIcons[index].sprite = img;
+            _uiIcons[index].color = Color.white; 
+            _uiIcons[index].enabled = true;
         }
         else
         {
-            iconImage.enabled = false;
+            _uiIcons[index].sprite = null;
+            _uiIcons[index].color = new Color(0, 0, 0, 0);
         }
     }
+
+    private void UseSelectedItem()
+    {
+        if (_currentlySelectedIndex != -1 && _currentlySelectedIndex < _powerupComponents.Length)
+        {
+            PowerUp selectedPowerUp = _powerupComponents[_currentlySelectedIndex];
+            if (selectedPowerUp != null && !string.IsNullOrEmpty(selectedPowerUp.getName()))
+            {
+                selectedPowerUp.OnUse();
+            }
+        }
+    }
+
+    public int GetInventorySize() 
+    { 
+        return _maxInventorySize; 
+    }
+
+    private int _tokens = 300;
+    public void AddTokens(int amount) { _tokens += amount; }
+    public void SubtractTokens(int amount) { _tokens -= amount; if (_tokens < 0) _tokens = 0; }
+    public int GetTokens() { return _tokens; }
+
+    void OnEnable() { GameController.GameStarted += ResetInv; GameController.GameOver += ResetInv; }
+    void OnDisable() { GameController.GameStarted -= ResetInv; GameController.GameOver -= ResetInv; }
+    void ResetInv() { _tokens = 0; }
 }
