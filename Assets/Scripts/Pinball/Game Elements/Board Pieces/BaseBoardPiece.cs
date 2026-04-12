@@ -10,15 +10,17 @@ public class BaseBoardPiece : MonoBehaviour
     {
         RoundManager.RoundStart += Activate;
         RoundManager.RoundOver += Deactivate;
+        RoundManager.LastRoundOver += Deactivate;
     }
     
     protected void OnDisable()
     {
         RoundManager.RoundStart -= Activate;
         RoundManager.RoundOver -= Deactivate;
+        RoundManager.LastRoundOver -= Deactivate;
     }
 
-    protected void Activate()
+    protected void Activate(int round)
     {
         _isActive = true;
     }

@@ -5,6 +5,7 @@ public class CursorManager : MonoBehaviour
     private void OnEnable()
     {
         GameController.GameOver += Unlock;
+        GameController.GameWon += Unlock;
         RoundManager.RoundOver += Unlock;
         Shop.ShopOpened += Unlock;
     }
@@ -12,6 +13,7 @@ public class CursorManager : MonoBehaviour
     private void OnDisable()
     {
         GameController.GameOver -= Unlock;
+        GameController.GameWon -= Unlock;
         RoundManager.RoundOver -= Unlock;
         Shop.ShopOpened -= Unlock;
     }

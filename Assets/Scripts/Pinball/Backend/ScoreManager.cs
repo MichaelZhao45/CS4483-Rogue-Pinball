@@ -5,6 +5,8 @@ public class ScoreManager : MonoBehaviour
 {
     public UIManager UI;
 
+    [Header("Settings")]
+    [SerializeField] private int _scoreIncreaseFactor = 10;
     [SerializeField] private int _startingScoreThreshold = 100;
     
     private int _currentScore;
@@ -22,7 +24,7 @@ public class ScoreManager : MonoBehaviour
         Bumper.OnBumperHit += OnBumperHit;
 
         GameController.GameStarted += Reset;
-        GameController.GameContinued += OnGameContinued;
+        RoundManager.RoundStart += OnRoundStart;
     }
 
     private void OnDisable()
@@ -30,7 +32,7 @@ public class ScoreManager : MonoBehaviour
         Bumper.OnBumperHit -= OnBumperHit;
 
         GameController.GameStarted -= Reset;
-        GameController.GameContinued -= OnGameContinued;
+        RoundManager.RoundStart -= OnRoundStart;
     }
 
     /* Event Reactions */
@@ -41,11 +43,10 @@ public class ScoreManager : MonoBehaviour
         CheckRoundComplete();
     }
 
-    private void OnGameContinued()
+    private void OnRoundStart(int round)
     {
         SetScore(0);
-        // TODO: non-linear increase?
-        SetThreshold(_scoreThreshold + 250);
+        SetThreshold(_scoreIncreaseFactor * (int)Math.Pow(round - 1, 2) + _startingScoreThreshold);
     }
 
     /* Script-Specific Methods */

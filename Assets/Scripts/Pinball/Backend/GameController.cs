@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Video;
 
 public class GameController : MonoBehaviour
 {
@@ -21,6 +22,8 @@ public class GameController : MonoBehaviour
     public static event Action GameStarted;
     // Signals that the game is over after all balls have been lost.
     public static event Action GameOver;
+    // Signals that the game has been won, after all rounds have been cleared.
+    public static event Action GameWon;
     // Signals that the game has been started again after the intermission period.
     public static event Action GameContinued;
 
@@ -31,6 +34,7 @@ public class GameController : MonoBehaviour
         Drain.OnDrainHit += OnBallDrained;
 
         RoundManager.RoundStart += OnRoundStart;
+        RoundManager.LastRoundOver += HandleGameWon;
     }
 
     private void OnDisable()
@@ -38,11 +42,12 @@ public class GameController : MonoBehaviour
         Drain.OnDrainHit -= OnBallDrained;
 
         RoundManager.RoundStart -= OnRoundStart;
+        RoundManager.LastRoundOver -= HandleGameWon;
     }
 
     /* Event Reactions */
 
-    private void OnRoundStart()
+    private void OnRoundStart(int round)
     {
         // Reset the ball counter back to full for the next round.
         _ballsRemaining = _maxBalls;
@@ -89,6 +94,13 @@ public class GameController : MonoBehaviour
         Debug.Log("GameController | HandleGameOver: Game over.");
         _gameInProgress = false;
         GameOver?.Invoke();
+    }
+
+    private void HandleGameWon()
+    {
+        Debug.Log("GameController | HandleGameWon: Game won!");
+        _gameInProgress = false;
+        GameWon?.Invoke();
     }
 
     /* Getters and Setters */

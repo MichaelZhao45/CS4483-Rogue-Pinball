@@ -13,6 +13,7 @@ public class UIManager : MonoBehaviour
     [Header("Canvases")]
     [SerializeField] private Canvas _interfaceCanvas;
     [SerializeField] private Canvas _gameOverCanvas;
+    [SerializeField] private Canvas _gameWonCanvas;
     [SerializeField] private Canvas _helpCanvas;
     [SerializeField] private Canvas _roundOverCanvas;
 
@@ -25,8 +26,12 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Text _tokenCounter_Hub;
     
     [Header("Game Over")]
-    [SerializeField] private TMP_Text _finalScore;
-    [SerializeField] private TMP_Text _roundReached;
+    [SerializeField] private TMP_Text _finalScore_L;
+    [SerializeField] private TMP_Text _roundReached_L;
+
+    [Header("Game Won")]
+    [SerializeField] private TMP_Text _finalScore_W;
+    [SerializeField] private TMP_Text _roundReached_W;
     
     [Header("Shop")]
     [SerializeField] private TMP_Text _inventoryCapacity;
@@ -52,6 +57,7 @@ public class UIManager : MonoBehaviour
     {
         GameController.GameStarted += OnGameStarted;
         GameController.GameOver += OnGameOver;
+        GameController.GameWon += OnGameWon;
 
         RoundManager.RoundStart += OnRoundStart;
         RoundManager.RoundOver += OnRoundOver;
@@ -63,6 +69,7 @@ public class UIManager : MonoBehaviour
     {
         GameController.GameStarted -= OnGameStarted;
         GameController.GameOver -= OnGameOver;
+        GameController.GameWon -= OnGameWon;
 
         RoundManager.RoundStart -= OnRoundStart;
         RoundManager.RoundOver -= OnRoundOver;
@@ -95,8 +102,19 @@ public class UIManager : MonoBehaviour
         ShowGameOver(true);
     }
 
+    // Upon winning the game.
+    private void OnGameWon()
+    {
+        ShowGameInterface(false);
+
+        SetFinalScore(scoreManager.GetScore());
+        SetRoundReached(roundManager.GetCurrentRound());
+
+        ShowGameWon(true);
+    }
+
     // At the beginning of any round of an *on-going* run.
-    private void OnRoundStart()
+    private void OnRoundStart(int round)
     {
         InitializeText();
         ShowGameInterface(true);
@@ -158,12 +176,14 @@ public class UIManager : MonoBehaviour
 
     public void SetFinalScore(int score)
     {
-        SetValue(_finalScore, score);
+        SetValue(_finalScore_L, score);
+        SetValue(_finalScore_W, score);
     }
 
     public void SetRoundReached(int round)
     {
-        SetValue(_roundReached, round);
+        SetValue(_roundReached_L, round);
+        SetValue(_roundReached_W, round);
     }
 
     public void SetBalls(int ballsRemaining)
@@ -186,6 +206,11 @@ public class UIManager : MonoBehaviour
     public void ShowGameOver(bool state)
     {
         SetVisible(_gameOverCanvas, state);
+    }
+
+    public void ShowGameWon(bool state)
+    {
+        SetVisible(_gameWonCanvas, state);
     }
 
     public void ShowHelp(bool state)
