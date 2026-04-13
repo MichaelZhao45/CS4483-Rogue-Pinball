@@ -3,7 +3,7 @@ using TMPro;
 
 public class TokenManager : MonoBehaviour
 {
-    public Inventory playerInventory;
+    public InventoryManager playerInventory;
 
     public TMP_Text tokensEarned;
 
