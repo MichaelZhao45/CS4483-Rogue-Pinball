@@ -1,60 +1,52 @@
-# Game Title
+# CS4483 - Game Design Project - Rogue Pinball
 
-Short 1–2 sentence description of the game.  
-Explain the genre, objective, and what makes it unique.
+Our Project, Rogue Pinball, is a Balatro-style game with a pinball theme.  The game focuses on accumulating points through the pinball machine, where players use special power-ups to help them progress.  Players may purchase these power-ups in the store to help them get to the next level score threshold.  
+
+Rogue Pinball consists of an unnamed protagonist who is homeless and financially desperate. The “Super Pinball” machine in the abandoned arcade is the last of its kind and is said to be magical. Those who win can have anything they want, but nobody has ever won. The protagonist believes that if they can defeat the machine, they might escape their poverty.
+
 
 ---
 
 ## Overview
-- **Genre:** 
-- **Platform:** 
+- **Genre: Rogue-like Pinball** 
 - **Engine:** Unity
 - **Language:** C#
-- **Team Members:** 
-- **Course / Project:** 
-- **Development Period:** 
+- **Team Members:** Liam Elliott, Sameer Bugti, Michael Zhao, Darwish Chahbar
+- **Course / Project:** CS4483B - Game Design
+- **Development Period:** Winter 2026
 
 ---
 
 ## Features
-- Core gameplay mechanic
-- Enemy / AI systems
-- Level progression
-- UI systems
-- Audio / visual effects
-- Save / scoring systems
+- Highscore System
+- Level Progression
+- Audio/Sound Feedback
+- Shop System
+- Round System
 
 ---
 
 ## Gameplay
-Brief explanation of:
-- Player objective
-- Win / lose conditions
-- Core mechanics
-- Weapons / abilities
-- Enemy behavior
-- Level flow
+Accumulate enough points to beat the rounds. 
+Work in Progress...
 
 ---
 
-## Controls
+## Base Controls
 | Action | Input |
 |---|---|
 | Move | WASD |
-| Jump | Space |
-| Attack | Left Click |
+| Interact | E |
 | Pause | ESC |
+
+## Pinball Controls
+| Action | Input | 
+| --- | --- |
+| Paddles | AD |
+| Pause | ESC | 
+Work in Progress...
 
 ---
 
-## Project Structure
-```text
-Assets/
-├── Scripts/
-├── Scenes/
-├── Prefabs/
-├── Materials/
-├── Audio/
-├── Animations/
-├── UI/
-└── Shaders/
+## Get Started
+Work In Progress...
