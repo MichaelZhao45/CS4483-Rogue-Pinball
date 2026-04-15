@@ -10,8 +10,9 @@ public class GameController : MonoBehaviour
     public BallDropper dropper;
     public ScoreManager scoreManager;
     public RoundManager roundManager;
+    public BallManager ballManager;
     
-    private int _ballsRemaining;
+    private int _extraBallsRemaining;
     private bool _gameInProgress = false;
 
     private int _maxBalls = 2;
@@ -31,7 +32,7 @@ public class GameController : MonoBehaviour
 
     private void OnEnable()
     {
-        Drain.OnDrainHit += OnBallDrained;
+        BallManager.AllBallsDrained += OnAllBallsDrained;
 
         RoundManager.RoundStart += OnRoundStart;
         RoundManager.LastRoundOver += HandleGameWon;
@@ -39,7 +40,7 @@ public class GameController : MonoBehaviour
 
     private void OnDisable()
     {
-        Drain.OnDrainHit -= OnBallDrained;
+        BallManager.AllBallsDrained -= OnAllBallsDrained;
 
         RoundManager.RoundStart -= OnRoundStart;
         RoundManager.LastRoundOver -= HandleGameWon;
@@ -50,16 +51,16 @@ public class GameController : MonoBehaviour
     private void OnRoundStart(int round)
     {
         // Reset the ball counter back to full for the next round.
-        _ballsRemaining = _maxBalls;
-        UI.SetBalls(_ballsRemaining);
+        _extraBallsRemaining = _maxBalls;
+        UI.SetBalls(_extraBallsRemaining);
     }
 
-    private void OnBallDrained()
+    private void OnAllBallsDrained()
     {
-        _ballsRemaining--;
-        UI.SetBalls(_ballsRemaining);
+        _extraBallsRemaining--;
+        UI.SetBalls(_extraBallsRemaining);
         
-        if (_ballsRemaining >= 0) dropper.ActivateDropper();
+        if (_extraBallsRemaining >= 0) dropper.ActivateDropper();
         else HandleGameOver();
     }
 
@@ -110,8 +111,8 @@ public class GameController : MonoBehaviour
         return _gameInProgress;
     }
 
-    public int getBallsRemaining()
+    public int GetExtraBallsRemaining()
     {
-        return _ballsRemaining;
+        return _extraBallsRemaining;
     }
 }

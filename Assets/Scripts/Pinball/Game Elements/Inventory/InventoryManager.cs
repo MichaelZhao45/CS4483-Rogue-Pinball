@@ -1,11 +1,11 @@
 using UnityEngine;
 using TMPro; 
 using UnityEngine.InputSystem;
-using UnityEngine.AI;
 
 public class InventoryManager : MonoBehaviour
 {
     [SerializeField] private RoundManager _roundManager;
+    [SerializeField] private PowerUpController _powerUpController;
     
     [Header("UI Fields")]
     [SerializeField] private TextMeshProUGUI _descriptionText;
@@ -17,6 +17,7 @@ public class InventoryManager : MonoBehaviour
     public GameObject inventoryPowerUpPrefab;
 
     private int _selectedSlot = -1;
+    private InventoryPowerUp _selectedInvPowerUp = null;
 
     void Update()
     {
@@ -48,8 +49,8 @@ public class InventoryManager : MonoBehaviour
         _inventorySlots[_selectedSlot].Select();
 
         // Show the description text for the new selection.
-        InventoryPowerUp selectedSlotPowerUp = _inventorySlots[_selectedSlot].GetComponentInChildren<InventoryPowerUp>();
-        if (selectedSlotPowerUp != null) _descriptionText.text = selectedSlotPowerUp.GetPowerUp().description;
+        _selectedInvPowerUp = _inventorySlots[_selectedSlot].GetComponentInChildren<InventoryPowerUp>();
+        if (_selectedInvPowerUp != null) _descriptionText.text = _selectedInvPowerUp.GetPowerUp().description;
         else _descriptionText.text = "Empty Slot";
     }
 
@@ -80,22 +81,19 @@ public class InventoryManager : MonoBehaviour
 
     private void UseSelectedItem()
     {
-        InventorySlot slot = _inventorySlots[_selectedSlot];
-        InventoryPowerUp powerUpInSlot = slot.GetComponentInChildren<InventoryPowerUp>();
-
-        if (powerUpInSlot != null)
+        if (_selectedInvPowerUp != null)
         {
-            PowerUp powerUp = powerUpInSlot.GetPowerUp();
+            PowerUp powerUp = _selectedInvPowerUp.GetPowerUp();
 
-            // TODO: perform action
-            Debug.Log("Powerup used!");
-            //powerUp.Use();
+            _descriptionText.text = $"{powerUp.type} PowerUp Activated!";
 
-            Destroy(powerUpInSlot.gameObject);
+            _powerUpController.UsePowerUp(powerUp);
+
+            Destroy(_selectedInvPowerUp.gameObject);
         }
         else
         {
-            Debug.Log("No powerup selected to use!");
+            _descriptionText.text = "No PowerUp To Use!";
         }
     }
 

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Booster
   m_EditorClassIdentifier: Assembly-CSharp::PowerUp
   type: 1
-  description: Adds a 1.2x score multiplier.
+  description: Adds a 2x score multiplier.
   image: {fileID: 21300000, guid: e00fde9808ef286469d96190dbbc0ea2, type: 3}
   cost: 200
   isConsumable: 0

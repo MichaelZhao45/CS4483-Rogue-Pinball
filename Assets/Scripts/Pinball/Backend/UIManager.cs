@@ -124,9 +124,9 @@ public class UIManager : MonoBehaviour
     {
         ShowGameInterface(false);
 
-        SetBallsBonus(gameController.getBallsRemaining() * 50);
+        SetBallsBonus(gameController.GetExtraBallsRemaining() * 50);
         SetRoundReward(scoreManager.GetScore());
-        SetTokensEarned(scoreManager.GetScore() + (gameController.getBallsRemaining() * 50));
+        SetTokensEarned(scoreManager.GetScore() + (gameController.GetExtraBallsRemaining() * 50));
 
         ShowRoundOver(true);
     }
