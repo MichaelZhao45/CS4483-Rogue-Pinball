@@ -25744,6 +25744,10 @@ PrefabInstance:
       propertyPath: ShapeModule.m_Scale.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2552364109404574845, guid: 5f552e6b8f41efe42a525645ee1951ce, type: 3}
+      propertyPath: ShapeModule.radiusThickness
+      value: 1.0000
+      objectReference: {fileID: 0}
     - target: {fileID: 3287637175956740031, guid: 5f552e6b8f41efe42a525645ee1951ce, type: 3}
       propertyPath: m_Name
       value: Ceiling Target
