@@ -33,12 +33,16 @@ public class Shop : MonoBehaviour
         _shopCanvas.gameObject.SetActive(true);
         ShopOpened?.Invoke();
         player.TurnOffHUD();
+
+        player.EnterShopMode();
     }
 
     public void Hide()
     {
         _shopCanvas.gameObject.SetActive(false);
         player.TurnOnHUD();
+
+        player.ExitShopMode();
     }
 
     public void purchaseItem1()
