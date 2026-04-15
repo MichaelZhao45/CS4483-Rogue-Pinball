@@ -44,9 +44,37 @@ Work in Progress...
 | --- | --- |
 | Paddles | AD |
 | Pause | ESC | 
-Work in Progress...
-
+| Powerups | Number Keys  | 
 ---
 
 ## Get Started
-Work In Progress...
+
+### Requirements
+- Unity **6 (6000.3.9f1)**
+- Git
+- Visual Studio / VS Code (recommended for C# scripting)
+
+### Setup Instructions
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/MichaelZhao45/CS4483-Rogue-Pinball.git
+   ```
+
+2. Open **Unity Hub**
+
+3. Click **Add Project** and select the cloned `CS4483-Rogue-Pinball` folder
+
+4. Open the project using **Unity 6 (6000.3.9f1)**
+
+5. Once Unity finishes importing packages and assets, open the main game scene from:
+   ```text
+   Assets/Scenes
+   ```
+
+6. Press the **Play** button in the Unity Editor to run the game
+
+### Build and Run
+To create a playable build:
+1. Go to `File > Build Settings`
+2. Select your target platform
+3. Click **Build and Run`
