@@ -1,13 +1,19 @@
 using UnityEngine;
 using TMPro; 
 using UnityEngine.InputSystem;
+using Unity.VisualScripting;
 
 public class InventoryManager : MonoBehaviour
 {
+    [Header("Actions")]
+    [SerializeField] private PlayerInput _playerInput;
+
+    [Header("Backend")]
     [SerializeField] private RoundManager _roundManager;
     [SerializeField] private PowerUpController _powerUpController;
     
     [Header("UI Fields")]
+    [SerializeField] private GameObject _descriptionField;
     [SerializeField] private TextMeshProUGUI _descriptionText;
 
     [Header("Inventory Settings")]
@@ -16,30 +22,77 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private InventorySlot[] _inventorySlots;
     public GameObject inventoryPowerUpPrefab;
 
-    private int _selectedSlot = -1;
+    private int _selectedSlot = 1;
     private InventoryPowerUp _selectedInvPowerUp = null;
 
-    void Update()
-    {
-        if (Keyboard.current == null) return;
+    /* Controlling the Inventory Action Map */
 
-        if (Keyboard.current.digit1Key.wasPressedThisFrame) SelectSlot(0);
-        if (Keyboard.current.digit2Key.wasPressedThisFrame) SelectSlot(1);
-        if (Keyboard.current.digit3Key.wasPressedThisFrame) SelectSlot(2);
-        if (Keyboard.current.digit4Key.wasPressedThisFrame) SelectSlot(3);
-        if (Keyboard.current.digit5Key.wasPressedThisFrame) SelectSlot(4);
-        if (Keyboard.current.digit6Key.wasPressedThisFrame) SelectSlot(5);
-        if (Keyboard.current.digit7Key.wasPressedThisFrame) SelectSlot(6);
-        if (Keyboard.current.digit8Key.wasPressedThisFrame) SelectSlot(7);
-        if (Keyboard.current.digit9Key.wasPressedThisFrame) SelectSlot(8);
-        
-        if (Keyboard.current.eKey.wasPressedThisFrame)
-        {
-            UseSelectedItem();
-        }
+    void Awake()
+    {
+        DisableInventory();
     }
 
-    private void SelectSlot(int index)
+    public void EnableInventory(int round = 0)
+    {
+        _descriptionField.SetActive(true);
+        _playerInput.actions.FindActionMap("Inventory").Enable();
+    }
+
+    public void DisableInventory()
+    {
+        _descriptionField.SetActive(false);
+        _playerInput.actions.FindActionMap("Inventory").Disable();
+        _inventorySlots[_selectedSlot].Deselect();
+    }
+
+    /* Button Bindings */
+
+    public void Slot1Pressed(InputAction.CallbackContext context)
+    {
+        if (context.performed) SelectSlot(0);
+    }
+
+    public void Slot2Pressed(InputAction.CallbackContext context)
+    {
+        if (context.performed) SelectSlot(1);
+    }
+
+    public void Slot3Pressed(InputAction.CallbackContext context)
+    {
+        if (context.performed) SelectSlot(2);
+    }
+
+    public void Slot4Pressed(InputAction.CallbackContext context)
+    {
+        if (context.performed) SelectSlot(3);
+    }
+
+    public void Slot5Pressed(InputAction.CallbackContext context)
+    {
+        if (context.performed) SelectSlot(4);
+    }
+
+    public void Slot6Pressed(InputAction.CallbackContext context)
+    {
+        if (context.performed) SelectSlot(5);
+    }
+
+    public void Slot7Pressed(InputAction.CallbackContext context)
+    {
+        if (context.performed) SelectSlot(6);
+    }
+
+    public void Slot8Pressed(InputAction.CallbackContext context)
+    {
+        if (context.performed) SelectSlot(7);
+    }
+
+    public void Slot9Pressed(InputAction.CallbackContext context)
+    {
+        if (context.performed) SelectSlot(8);
+    }
+
+    public void SelectSlot(int index)
     {
         // Disable previous selection.
         if (_selectedSlot >= 0) _inventorySlots[_selectedSlot].Deselect();
@@ -79,21 +132,24 @@ public class InventoryManager : MonoBehaviour
         inventoryPowerUp.InitializeItem(powerUp);
     }
 
-    private void UseSelectedItem()
+    public void UseSelectedItem(InputAction.CallbackContext context)
     {
-        if (_selectedInvPowerUp != null)
+        if (context.performed)
         {
-            PowerUp powerUp = _selectedInvPowerUp.GetPowerUp();
+            if (_selectedInvPowerUp != null)
+            {
+                PowerUp powerUp = _selectedInvPowerUp.GetPowerUp();
 
-            _descriptionText.text = $"{powerUp.type} PowerUp Activated!";
+                _descriptionText.text = $"{powerUp.type} PowerUp Activated!";
 
-            _powerUpController.UsePowerUp(powerUp);
+                _powerUpController.UsePowerUp(powerUp);
 
-            Destroy(_selectedInvPowerUp.gameObject);
-        }
-        else
-        {
-            _descriptionText.text = "No PowerUp To Use!";
+                Destroy(_selectedInvPowerUp.gameObject);
+            }
+            else
+            {
+                _descriptionText.text = "No PowerUp To Use!";
+            }
         }
     }
 
@@ -111,12 +167,18 @@ public class InventoryManager : MonoBehaviour
     {
         GameController.GameStarted += ResetInv;
         GameController.GameOver += ResetInv;
+
+        RoundManager.RoundStart += EnableInventory;
+        RoundManager.RoundOver += DisableInventory;
     }
 
     void OnDisable()
     {
         GameController.GameStarted -= ResetInv;
         GameController.GameOver -= ResetInv;
+
+        RoundManager.RoundStart -= EnableInventory;
+        RoundManager.RoundOver -= DisableInventory;
     }
 
     void ResetInv()

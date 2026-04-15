@@ -13,6 +13,16 @@ public class Shop : MonoBehaviour
     // TODO: refactor this to not be an event; only AudioController cares.
     public static event Action ShopOpened;
 
+    private void OnEnable()
+    {
+        RoundManager.RoundOver += InitializeShop;
+    }
+
+    private void OnDisable()
+    {
+        RoundManager.RoundOver -= InitializeShop;
+    }
+
     public void Awake()
     {
         InitializeShop();
