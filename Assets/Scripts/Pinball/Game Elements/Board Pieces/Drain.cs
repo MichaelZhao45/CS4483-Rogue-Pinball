@@ -10,6 +10,8 @@ public class Drain : BaseBoardPiece
     {
         if (collision.gameObject.TryGetComponent<Rigidbody>(out var _collidedBallRb))
         {
+            if (_hitVFX != null) _hitVFX.Play();
+
             Destroy(collision.gameObject);
 
             if (_isActive)

@@ -16,12 +16,13 @@ public class Bumper : BaseBoardPiece
 
         if (collision.gameObject.TryGetComponent<Rigidbody>(out var _collidedBallRb))
         {
-            _audio.Play();
+            if (_audio != null) _audio.Play();
+            if (_hitVFX != null) _hitVFX.Play();
             
             OnBumperHit?.Invoke(_pointsEarned);
 
             // If the bumper has no knockback strength, don't bother doing the calculations.
-            if (_strength == 0) return;
+            if (_strength <= 0) return;
         
             Vector3 knockback = collision.contacts[0].normal * _strength;
 
