@@ -27,8 +27,10 @@ Rogue Pinball consists of an unnamed protagonist who is homeless and financially
 ---
 
 ## Gameplay
+Use the flippers to hit targets with the pinballs, and prevent them from falling into the drain.
 Accumulate enough points to beat the rounds. 
-Work in Progress...
+Purchase and use powerups to score more points.
+Clear 20 rounds to beat the game.
 
 ---
 
@@ -42,15 +44,16 @@ Work in Progress...
 ## Pinball Controls
 | Action | Input | 
 | --- | --- |
-| Paddles | AD |
+| Paddles | A (left) / D (right) |
 | Pause | ESC | 
 | Powerups | Number Keys  | 
+| Activate Powerup | E |
 ---
 
 ## Get Started
 
 ### Requirements
-- Unity **6 (6000.3.9f1)**
+- Unity **6 (6000.3.9f1+)**
 - Git
 - Visual Studio / VS Code (recommended for C# scripting)
 
@@ -64,7 +67,7 @@ Work in Progress...
 
 3. Click **Add Project** and select the cloned `CS4483-Rogue-Pinball` folder
 
-4. Open the project using **Unity 6 (6000.3.9f1)**
+4. Open the project using **Unity 6 (6000.3.9f1+)**
 
 5. Once Unity finishes importing packages and assets, open the main game scene from:
    ```text
