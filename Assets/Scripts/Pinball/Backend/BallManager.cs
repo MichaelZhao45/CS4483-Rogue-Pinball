@@ -29,7 +29,14 @@ public class BallManager : MonoBehaviour
     private void OnBallDrained()
     {
         _activeBalls--;
-        if (_activeBalls == 0) AllBallsDrained?.Invoke();
+
+        Debug.Log($"BallManager | OnBallDrained: active balls = {_activeBalls}.");
+
+        if (_activeBalls <= 0)
+        {
+            Debug.Log("BallManager | OnBallDrained: All active balls drained.");
+            AllBallsDrained?.Invoke();
+        }
     }
 
     public void SpawnBall(Vector3 _spawnPosition)

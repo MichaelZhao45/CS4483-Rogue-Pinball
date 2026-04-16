@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Video;
 
 public class GameController : MonoBehaviour
 {
@@ -14,8 +13,10 @@ public class GameController : MonoBehaviour
     
     private int _extraBallsRemaining;
     private bool _gameInProgress = false;
+    private bool _intermissionActive = false;
 
-    private int _maxBalls = 2;
+    [Header("Game Settings")]
+    [SerializeField] private int _maxBalls = 2;
 
     /* Orchestrator events. Controls the flow of gameplay states. */
 
@@ -35,6 +36,7 @@ public class GameController : MonoBehaviour
         BallManager.AllBallsDrained += OnAllBallsDrained;
 
         RoundManager.RoundStart += OnRoundStart;
+        RoundManager.RoundOver += OnRoundOver;
         RoundManager.LastRoundOver += HandleGameWon;
     }
 
@@ -43,6 +45,7 @@ public class GameController : MonoBehaviour
         BallManager.AllBallsDrained -= OnAllBallsDrained;
 
         RoundManager.RoundStart -= OnRoundStart;
+        RoundManager.RoundOver -= OnRoundOver;
         RoundManager.LastRoundOver -= HandleGameWon;
     }
 
@@ -53,10 +56,20 @@ public class GameController : MonoBehaviour
         // Reset the ball counter back to full for the next round.
         _extraBallsRemaining = _maxBalls;
         UI.SetBalls(_extraBallsRemaining);
+
+        _intermissionActive = false;
+    }
+
+    private void OnRoundOver()
+    {
+        _intermissionActive = true;
     }
 
     private void OnAllBallsDrained()
     {
+        // If the round is currently over, ignore when all balls are drained.
+        if (_intermissionActive) return;
+
         _extraBallsRemaining--;
         UI.SetBalls(_extraBallsRemaining);
         
@@ -87,6 +100,7 @@ public class GameController : MonoBehaviour
     public void RestartGame()
     {
         _gameInProgress = true;
+        _intermissionActive = false;
         GameStarted?.Invoke();
     }
 
@@ -94,6 +108,7 @@ public class GameController : MonoBehaviour
     {
         Debug.Log("GameController | HandleGameOver: Game over.");
         _gameInProgress = false;
+        _intermissionActive = false;
         GameOver?.Invoke();
     }
 
@@ -101,6 +116,7 @@ public class GameController : MonoBehaviour
     {
         Debug.Log("GameController | HandleGameWon: Game won!");
         _gameInProgress = false;
+        _intermissionActive = false;
         GameWon?.Invoke();
     }
 
