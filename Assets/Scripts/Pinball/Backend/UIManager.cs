@@ -20,6 +20,7 @@ public class UIManager : MonoBehaviour
     [Header("Game Interface")]
     [SerializeField] private TMP_Text _roundCounter;
     [SerializeField] private TMP_Text _scoreCounter;
+    [SerializeField] private TMP_Text _multiplier;
     [SerializeField] private TMP_Text _scoreThreshold;
     [SerializeField] private TMP_Text _ballsRemaining;
     [SerializeField] private TMP_Text _tokenCounter_Game;
@@ -118,6 +119,7 @@ public class UIManager : MonoBehaviour
     {
         InitializeText();
         ShowGameInterface(true);
+        ShowMultiplier(false);
     }
 
     private void OnRoundOver()
@@ -198,6 +200,11 @@ public class UIManager : MonoBehaviour
         SetValue(_tokenCounter_Hub, amount);
     }
 
+    public void SetMultiplier(int amount)
+    {
+        _multiplier.text = $"x{amount}";
+    }
+
     public void ShowGameInterface(bool state)
     {
         SetVisible(_interfaceCanvas, state);
@@ -221,6 +228,11 @@ public class UIManager : MonoBehaviour
     public void ShowRoundOver(bool state)
     {
         SetVisible(_roundOverCanvas, state);
+    }
+
+    public void ShowMultiplier(bool state)
+    {
+        _multiplier.gameObject.SetActive(state);
     }
 
     public void SetTokensEarned(int amount)

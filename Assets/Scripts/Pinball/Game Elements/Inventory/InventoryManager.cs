@@ -25,6 +25,29 @@ public class InventoryManager : MonoBehaviour
     private int _selectedSlot = 1;
     private InventoryPowerUp _selectedInvPowerUp = null;
 
+    [Header("Token Settings")]
+    [SerializeField] private int _tokens = 0;
+
+    /* Event subscriptions */
+
+    void OnEnable()
+    {
+        GameController.GameStarted += ResetInv;
+        GameController.GameOver += ResetInv;
+
+        RoundManager.RoundStart += EnableInventory;
+        RoundManager.RoundOver += DisableInventory;
+    }
+
+    void OnDisable()
+    {
+        GameController.GameStarted -= ResetInv;
+        GameController.GameOver -= ResetInv;
+
+        RoundManager.RoundStart -= EnableInventory;
+        RoundManager.RoundOver -= DisableInventory;
+    }
+
     /* Controlling the Inventory Action Map */
 
     void Awake()
@@ -157,29 +180,9 @@ public class InventoryManager : MonoBehaviour
     { 
         return _inventorySize; 
     }
-
-    private int _tokens = 300;
     public void AddTokens(int amount) { _tokens += amount; }
     public void SubtractTokens(int amount) { _tokens -= amount; if (_tokens < 0) _tokens = 0; }
     public int GetTokens() { return _tokens; }
-
-    void OnEnable()
-    {
-        GameController.GameStarted += ResetInv;
-        GameController.GameOver += ResetInv;
-
-        RoundManager.RoundStart += EnableInventory;
-        RoundManager.RoundOver += DisableInventory;
-    }
-
-    void OnDisable()
-    {
-        GameController.GameStarted -= ResetInv;
-        GameController.GameOver -= ResetInv;
-
-        RoundManager.RoundStart -= EnableInventory;
-        RoundManager.RoundOver -= DisableInventory;
-    }
 
     void ResetInv()
     {

@@ -4,6 +4,7 @@ public class PowerUpController : MonoBehaviour
 {
     public BallManager ballManager;
     public ScoreManager scoreManager;
+    public UIManager UI;
 
     public void UsePowerUp(PowerUp powerUp)
     {
@@ -23,6 +24,7 @@ public class PowerUpController : MonoBehaviour
                 Debug.Log("Booster powerup used!");
 
                 scoreManager.AddMultiplier(1);
+                UI.ShowMultiplier(true);
 
                 break;
             default:

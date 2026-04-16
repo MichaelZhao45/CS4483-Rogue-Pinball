@@ -74,6 +74,7 @@ public class ScoreManager : MonoBehaviour
     public void AddMultiplier(int increase)
     {
         _scoreMultiplier += increase;
+        UI.SetMultiplier(_scoreMultiplier);
     }
 
     private void CheckRoundComplete()
@@ -113,5 +114,10 @@ public class ScoreManager : MonoBehaviour
     {
         _scoreThreshold = threshold;
         UI.SetThreshold(_scoreThreshold);
+    }
+
+    public int GetMultiplier()
+    {
+        return _scoreMultiplier;
     }
 }
