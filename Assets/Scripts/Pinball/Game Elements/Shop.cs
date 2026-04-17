@@ -5,13 +5,23 @@ public class Shop : MonoBehaviour
 {
     [SerializeField] private Canvas _shopCanvas;
     [SerializeField] private PlayerController player;
-    [SerializeField] private Inventory playerInventory;
-    [SerializeField] private GameObject AvailablePowerUps;
+    [SerializeField] private InventoryManager playerInventory;
+    [SerializeField] private PowerUp[] availablePowerUps;
     [SerializeField] private UIManager UI;
-    [SerializeField] private GameObject[] shopOptions;
+    private PowerUp[] _shopOptions = new PowerUp[3];
 
     // TODO: refactor this to not be an event; only AudioController cares.
     public static event Action ShopOpened;
+
+    private void OnEnable()
+    {
+        RoundManager.RoundOver += InitializeShop;
+    }
+
+    private void OnDisable()
+    {
+        RoundManager.RoundOver -= InitializeShop;
+    }
 
     public void Awake()
     {
@@ -20,12 +30,13 @@ public class Shop : MonoBehaviour
 
     public void InitializeShop()
     {
-        shopOptions = new GameObject[3];
-        shopOptions[0] = AvailablePowerUps.transform.GetChild(0).gameObject;
-        shopOptions[1] = AvailablePowerUps.transform.GetChild(0).gameObject;
-        shopOptions[2] = AvailablePowerUps.transform.GetChild(0).gameObject;
+        System.Random rng = new();
 
-        UI.SetShop(shopOptions);
+        _shopOptions[0] = availablePowerUps[rng.Next(0, availablePowerUps.Length)];
+        _shopOptions[1] = availablePowerUps[rng.Next(0, availablePowerUps.Length)];
+        _shopOptions[2] = availablePowerUps[rng.Next(0, availablePowerUps.Length)];
+
+        UI.SetShop(_shopOptions);
     }
 
     public void Show()
@@ -45,37 +56,22 @@ public class Shop : MonoBehaviour
         player.ExitShopMode();
     }
 
-    public void purchaseItem1()
+    public void PurchaseItem(int index)
     {
-        Debug.Log($"[SHOP] Purchase button clicked. Sending item to: {playerInventory.gameObject.name}");
-        PowerUp slot1 = shopOptions[0].GetComponent<PowerUp>();
-        if (playerInventory.GetTokens() >= slot1.getCost())
-        {
-            playerInventory.SubtractTokens(slot1.getCost());
-            UI.SetTokens(playerInventory.GetTokens());
-            playerInventory.AddPowerUp(shopOptions[0].GetComponent<PowerUp>());
-        }
-    }
+        PowerUp purchasedPowerUp = _shopOptions[index];
 
-    public void purchaseItem2()
-    {
-        PowerUp slot2 = shopOptions[1].GetComponent<PowerUp>();
-        if (playerInventory.GetTokens() >= slot2.getCost())
+        if (playerInventory.GetTokens() >= purchasedPowerUp.cost)
         {
-            playerInventory.SubtractTokens(slot2.getCost());
-            UI.SetTokens(playerInventory.GetTokens());
-            playerInventory.AddPowerUp(shopOptions[1].GetComponent<PowerUp>());
-        }
-    }
+            Debug.Log("[SHOP] Item purchased successfully.");
 
-    public void purchaseItem3()
-    {
-        PowerUp slot3 = shopOptions[2].GetComponent<PowerUp>();
-        if (playerInventory.GetTokens() >= slot3.getCost())
-        {
-            playerInventory.SubtractTokens(slot3.getCost());
+            playerInventory.SubtractTokens(purchasedPowerUp.cost);
             UI.SetTokens(playerInventory.GetTokens());
-            playerInventory.AddPowerUp(shopOptions[2].GetComponent<PowerUp>());
+
+            playerInventory.AddPowerUp(purchasedPowerUp);
+        }
+        else
+        {
+            Debug.Log("[SHOP] Cannot purchase item!");
         }
     }
 }

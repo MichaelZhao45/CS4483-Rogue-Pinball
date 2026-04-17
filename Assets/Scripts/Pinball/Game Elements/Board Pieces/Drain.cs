@@ -10,13 +10,11 @@ public class Drain : BaseBoardPiece
     {
         if (collision.gameObject.TryGetComponent<Rigidbody>(out var _collidedBallRb))
         {
-            if (_hitVFX != null) _hitVFX.Play();
-
+            OnDrainHit?.Invoke();
             Destroy(collision.gameObject);
 
             if (_isActive)
             {
-                OnDrainHit?.Invoke();
                 _audio.Play();
             }
         }

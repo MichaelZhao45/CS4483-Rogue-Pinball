@@ -1,23 +1,24 @@
+using System;
 using UnityEngine;
 
 public class BallManager : MonoBehaviour
 {
     [SerializeField] private GameObject _currentBallPrefab;
 
-    private int _activeBalls;
+    private int _activeBalls = 0;
+
+    public static event Action AllBallsDrained; 
 
     private void OnEnable()
     {
         GameController.GameStarted += OnGameStarted;
         Drain.OnDrainHit += OnBallDrained;
-        //RoundManager.RoundOver += DestroyAllBalls;
     }
 
     private void OnDisable()
     {
         GameController.GameStarted -= OnGameStarted;
         Drain.OnDrainHit -= OnBallDrained;
-        //RoundManager.RoundOver -= DestroyAllBalls;
     }
 
     private void OnGameStarted()
@@ -28,6 +29,14 @@ public class BallManager : MonoBehaviour
     private void OnBallDrained()
     {
         _activeBalls--;
+
+        Debug.Log($"BallManager | OnBallDrained: active balls = {_activeBalls}.");
+
+        if (_activeBalls <= 0)
+        {
+            Debug.Log("BallManager | OnBallDrained: All active balls drained.");
+            AllBallsDrained?.Invoke();
+        }
     }
 
     public void SpawnBall(Vector3 _spawnPosition)
@@ -44,5 +53,10 @@ public class BallManager : MonoBehaviour
     public GameObject GetCurrentBallPrefab()
     {
         return _currentBallPrefab;
+    }
+
+    public int GetActiveBalls()
+    {
+        return _activeBalls;
     }
 }

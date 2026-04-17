@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ScoreManager : MonoBehaviour
@@ -25,6 +26,7 @@ public class ScoreManager : MonoBehaviour
 
         GameController.GameStarted += Reset;
         RoundManager.RoundStart += OnRoundStart;
+        RoundManager.RoundOver += OnRoundOver;
     }
 
     private void OnDisable()
@@ -33,6 +35,7 @@ public class ScoreManager : MonoBehaviour
 
         GameController.GameStarted -= Reset;
         RoundManager.RoundStart -= OnRoundStart;
+        RoundManager.RoundOver -= OnRoundOver;
     }
 
     /* Event Reactions */
@@ -46,7 +49,13 @@ public class ScoreManager : MonoBehaviour
     private void OnRoundStart(int round)
     {
         SetScore(0);
+        // The threshold follows the formula: y = factor * (x - 1)^2 + threshold.
         SetThreshold(_scoreIncreaseFactor * (int)Math.Pow(round - 1, 2) + _startingScoreThreshold);
+    }
+
+    private void OnRoundOver()
+    {
+        ResetMultiplier();
     }
 
     /* Script-Specific Methods */
@@ -57,9 +66,15 @@ public class ScoreManager : MonoBehaviour
         UI.SetScore(_currentScore);
     }
 
+    public void ResetMultiplier()
+    {
+        _scoreMultiplier = 1;
+    }
+
     public void AddMultiplier(int increase)
     {
         _scoreMultiplier += increase;
+        UI.SetMultiplier(_scoreMultiplier);
     }
 
     private void CheckRoundComplete()
@@ -72,7 +87,7 @@ public class ScoreManager : MonoBehaviour
 
     private void Reset()
     {
-        _scoreMultiplier = 1;
+        ResetMultiplier();
         SetScore(0);
         SetThreshold(_startingScoreThreshold);
     }
@@ -99,5 +114,10 @@ public class ScoreManager : MonoBehaviour
     {
         _scoreThreshold = threshold;
         UI.SetThreshold(_scoreThreshold);
+    }
+
+    public int GetMultiplier()
+    {
+        return _scoreMultiplier;
     }
 }
