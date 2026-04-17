@@ -10,6 +10,11 @@ public class Shop : MonoBehaviour
     [SerializeField] private UIManager UI;
     private PowerUp[] _shopOptions = new PowerUp[3];
 
+    [Header("Audio")]
+    [SerializeField] private AudioSource _audioSource;
+    [SerializeField] private AudioClip _successPurchaseSFX;
+    [SerializeField] private AudioClip _deniedPurchaseSFX;
+
     // TODO: refactor this to not be an event; only AudioController cares.
     public static event Action ShopOpened;
 
@@ -64,6 +69,9 @@ public class Shop : MonoBehaviour
         {
             Debug.Log("[SHOP] Item purchased successfully.");
 
+            _audioSource.clip = _successPurchaseSFX;
+            _audioSource.Play();
+
             playerInventory.SubtractTokens(purchasedPowerUp.cost);
             UI.SetTokens(playerInventory.GetTokens());
 
@@ -72,6 +80,8 @@ public class Shop : MonoBehaviour
         else
         {
             Debug.Log("[SHOP] Cannot purchase item!");
+            _audioSource.clip = _deniedPurchaseSFX;
+            _audioSource.Play();
         }
     }
 }

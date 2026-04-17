@@ -18,7 +18,6 @@ public class InventoryManager : MonoBehaviour
 
     [Header("Inventory Settings")]
     [SerializeField] private int _inventorySize = 9;
-
     [SerializeField] private InventorySlot[] _inventorySlots;
     public GameObject inventoryPowerUpPrefab;
 
@@ -27,6 +26,11 @@ public class InventoryManager : MonoBehaviour
 
     [Header("Token Settings")]
     [SerializeField] private int _tokens = 0;
+
+    [Header("Audio")]
+    [SerializeField] private AudioSource _audioSource;
+    [SerializeField] private AudioClip _useSFX;
+    [SerializeField] private AudioClip _cannotUseSFX;
 
     /* Event subscriptions */
 
@@ -165,12 +169,18 @@ public class InventoryManager : MonoBehaviour
 
                 _descriptionText.text = $"{powerUp.type} PowerUp Activated!";
 
+                _audioSource.clip = _useSFX;
+                _audioSource.Play();
+
                 _powerUpController.UsePowerUp(powerUp);
 
                 Destroy(_selectedInvPowerUp.gameObject);
             }
             else
             {
+                _audioSource.clip = _cannotUseSFX;
+                _audioSource.Play();
+
                 _descriptionText.text = "No PowerUp To Use!";
             }
         }
