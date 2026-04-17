@@ -2,7 +2,11 @@ using UnityEngine;
 
 public class BaseBoardPiece : MonoBehaviour
 {
+    [Header("Audio")]
     [SerializeField] protected AudioSource _audio;
+
+    [Header("Particle Effects")]
+    [SerializeField] protected ParticleSystem _hitVFX;
 
     protected bool _isActive = true;
 
