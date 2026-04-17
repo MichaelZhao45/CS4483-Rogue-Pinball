@@ -1,7 +1,7 @@
 using UnityEngine;
 using TMPro; 
 using UnityEngine.InputSystem;
-using Unity.VisualScripting;
+using System.Runtime.ExceptionServices;
 
 public class InventoryManager : MonoBehaviour
 {
@@ -69,7 +69,7 @@ public class InventoryManager : MonoBehaviour
     {
         _descriptionField.SetActive(false);
         _playerInput.actions.FindActionMap("Inventory").Disable();
-        _inventorySlots[_selectedSlot].Deselect();
+        //_inventorySlots[_selectedSlot].Deselect();
     }
 
     /* Button Bindings */
@@ -190,6 +190,7 @@ public class InventoryManager : MonoBehaviour
     { 
         return _inventorySize; 
     }
+
     public void AddTokens(int amount) { _tokens += amount; }
     public void SubtractTokens(int amount) { _tokens -= amount; if (_tokens < 0) _tokens = 0; }
     public int GetTokens() { return _tokens; }
