@@ -1121,9 +1121,10 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'University of Western Ontario
 
-    CS4483B Project
+    CS4483B Game Design Project
 
-    April 17th, 2026'
+    April
+    25th, 2026'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9a14a8a1184c5f14fbce3338ea4d7a35, type: 2}
   m_sharedMaterial: {fileID: 1260715531048141648, guid: 9a14a8a1184c5f14fbce3338ea4d7a35, type: 2}
