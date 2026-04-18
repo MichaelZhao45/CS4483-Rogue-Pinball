@@ -5,13 +5,28 @@ public class Shop : MonoBehaviour
 {
     [SerializeField] private Canvas _shopCanvas;
     [SerializeField] private PlayerController player;
-    [SerializeField] private Inventory playerInventory;
-    [SerializeField] private GameObject AvailablePowerUps;
+    [SerializeField] private InventoryManager playerInventory;
+    [SerializeField] private PowerUp[] availablePowerUps;
     [SerializeField] private UIManager UI;
-    [SerializeField] private GameObject[] shopOptions;
+    private PowerUp[] _shopOptions = new PowerUp[3];
+
+    [Header("Audio")]
+    [SerializeField] private AudioSource _audioSource;
+    [SerializeField] private AudioClip _successPurchaseSFX;
+    [SerializeField] private AudioClip _deniedPurchaseSFX;
 
     // TODO: refactor this to not be an event; only AudioController cares.
     public static event Action ShopOpened;
+
+    private void OnEnable()
+    {
+        RoundManager.RoundOver += InitializeShop;
+    }
+
+    private void OnDisable()
+    {
+        RoundManager.RoundOver -= InitializeShop;
+    }
 
     public void Awake()
     {
@@ -20,12 +35,13 @@ public class Shop : MonoBehaviour
 
     public void InitializeShop()
     {
-        shopOptions = new GameObject[3];
-        shopOptions[0] = AvailablePowerUps.transform.GetChild(0).gameObject;
-        shopOptions[1] = AvailablePowerUps.transform.GetChild(0).gameObject;
-        shopOptions[2] = AvailablePowerUps.transform.GetChild(0).gameObject;
+        System.Random rng = new();
 
-        UI.SetShop(shopOptions);
+        _shopOptions[0] = availablePowerUps[rng.Next(0, availablePowerUps.Length)];
+        _shopOptions[1] = availablePowerUps[rng.Next(0, availablePowerUps.Length)];
+        _shopOptions[2] = availablePowerUps[rng.Next(0, availablePowerUps.Length)];
+
+        UI.SetShop(_shopOptions);
     }
 
     public void Show()
@@ -33,45 +49,39 @@ public class Shop : MonoBehaviour
         _shopCanvas.gameObject.SetActive(true);
         ShopOpened?.Invoke();
         player.TurnOffHUD();
+
+        player.EnterShopMode();
     }
 
     public void Hide()
     {
         _shopCanvas.gameObject.SetActive(false);
         player.TurnOnHUD();
+
+        player.ExitShopMode();
     }
 
-    public void purchaseItem1()
+    public void PurchaseItem(int index)
     {
-        Debug.Log($"[SHOP] Purchase button clicked. Sending item to: {playerInventory.gameObject.name}");
-        PowerUp slot1 = shopOptions[0].GetComponent<PowerUp>();
-        if (playerInventory.GetTokens() >= slot1.getCost())
+        PowerUp purchasedPowerUp = _shopOptions[index];
+
+        if (playerInventory.GetTokens() >= purchasedPowerUp.cost)
         {
-            playerInventory.SubtractTokens(slot1.getCost());
+            Debug.Log("[SHOP] Item purchased successfully.");
+
+            _audioSource.clip = _successPurchaseSFX;
+            _audioSource.Play();
+
+            playerInventory.SubtractTokens(purchasedPowerUp.cost);
             UI.SetTokens(playerInventory.GetTokens());
-            playerInventory.AddPowerUp(shopOptions[0].GetComponent<PowerUp>());
+
+            playerInventory.AddPowerUp(purchasedPowerUp);
         }
-    }
-
-    public void purchaseItem2()
-    {
-        PowerUp slot2 = shopOptions[1].GetComponent<PowerUp>();
-        if (playerInventory.GetTokens() >= slot2.getCost())
+        else
         {
-            playerInventory.SubtractTokens(slot2.getCost());
-            UI.SetTokens(playerInventory.GetTokens());
-            playerInventory.AddPowerUp(shopOptions[1].GetComponent<PowerUp>());
-        }
-    }
-
-    public void purchaseItem3()
-    {
-        PowerUp slot3 = shopOptions[2].GetComponent<PowerUp>();
-        if (playerInventory.GetTokens() >= slot3.getCost())
-        {
-            playerInventory.SubtractTokens(slot3.getCost());
-            UI.SetTokens(playerInventory.GetTokens());
-            playerInventory.AddPowerUp(shopOptions[2].GetComponent<PowerUp>());
+            Debug.Log("[SHOP] Cannot purchase item!");
+            _audioSource.clip = _deniedPurchaseSFX;
+            _audioSource.Play();
         }
     }
 }

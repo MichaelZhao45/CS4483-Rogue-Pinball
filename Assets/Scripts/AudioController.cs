@@ -8,6 +8,7 @@ public class AudioController : MonoBehaviour
     [Header("Music")] 
     [SerializeField] private AudioClip _pinballMusic;
     [SerializeField] private AudioClip _gameOverMusic;
+    [SerializeField] private AudioClip _gameWonMusic;
     [SerializeField] private AudioClip _hubWorldMusic;
     [SerializeField] private AudioClip _shopMusic;
 
@@ -16,6 +17,7 @@ public class AudioController : MonoBehaviour
         GameController.GameStarted += PlayPinballMusic;
         GameController.GameContinued += PlayPinballMusic;
         GameController.GameOver += PlayGameOverMusic;
+        GameController.GameWon += PlayGameWonMusic;
 
         Shop.ShopOpened += PlayShopMusic;
     }
@@ -25,6 +27,7 @@ public class AudioController : MonoBehaviour
         GameController.GameStarted -= PlayPinballMusic;
         GameController.GameContinued -= PlayPinballMusic;
         GameController.GameOver -= PlayGameOverMusic;
+        GameController.GameWon -= PlayGameWonMusic;
 
         Shop.ShopOpened -= PlayShopMusic;
     }
@@ -37,6 +40,12 @@ public class AudioController : MonoBehaviour
     public void PlayGameOverMusic()
     {
         _audioSource.clip = _gameOverMusic;
+        _audioSource.Play();
+    }
+
+    public void PlayGameWonMusic()
+    {
+        _audioSource.clip = _gameWonMusic;
         _audioSource.Play();
     }
 

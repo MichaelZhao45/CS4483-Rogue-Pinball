@@ -61,7 +61,7 @@ public class BallDropper : MonoBehaviour
         }
     }
 
-    public void ActivateDropper()
+    public void ActivateDropper(int round = 0)
     {
         _isActive = true;
         _dropperAnchor.SetActive(true);

@@ -7,26 +7,32 @@ public class UIManager : MonoBehaviour
     [Header("Backend Controllers/Managers")]
     public ScoreManager scoreManager;
     public RoundManager roundManager;
-    public Inventory playerInventory;
+    public InventoryManager playerInventory;
     public GameController gameController;
 
     [Header("Canvases")]
     [SerializeField] private Canvas _interfaceCanvas;
     [SerializeField] private Canvas _gameOverCanvas;
+    [SerializeField] private Canvas _gameWonCanvas;
     [SerializeField] private Canvas _helpCanvas;
     [SerializeField] private Canvas _roundOverCanvas;
 
     [Header("Game Interface")]
     [SerializeField] private TMP_Text _roundCounter;
     [SerializeField] private TMP_Text _scoreCounter;
+    [SerializeField] private TMP_Text _multiplier;
     [SerializeField] private TMP_Text _scoreThreshold;
     [SerializeField] private TMP_Text _ballsRemaining;
     [SerializeField] private TMP_Text _tokenCounter_Game;
     [SerializeField] private TMP_Text _tokenCounter_Hub;
     
     [Header("Game Over")]
-    [SerializeField] private TMP_Text _finalScore;
-    [SerializeField] private TMP_Text _roundReached;
+    [SerializeField] private TMP_Text _finalScore_L;
+    [SerializeField] private TMP_Text _roundReached_L;
+
+    [Header("Game Won")]
+    [SerializeField] private TMP_Text _finalScore_W;
+    [SerializeField] private TMP_Text _roundReached_W;
     
     [Header("Shop")]
     [SerializeField] private TMP_Text _inventoryCapacity;
@@ -52,6 +58,7 @@ public class UIManager : MonoBehaviour
     {
         GameController.GameStarted += OnGameStarted;
         GameController.GameOver += OnGameOver;
+        GameController.GameWon += OnGameWon;
 
         RoundManager.RoundStart += OnRoundStart;
         RoundManager.RoundOver += OnRoundOver;
@@ -63,6 +70,7 @@ public class UIManager : MonoBehaviour
     {
         GameController.GameStarted -= OnGameStarted;
         GameController.GameOver -= OnGameOver;
+        GameController.GameWon -= OnGameWon;
 
         RoundManager.RoundStart -= OnRoundStart;
         RoundManager.RoundOver -= OnRoundOver;
@@ -95,20 +103,32 @@ public class UIManager : MonoBehaviour
         ShowGameOver(true);
     }
 
+    // Upon winning the game.
+    private void OnGameWon()
+    {
+        ShowGameInterface(false);
+
+        SetFinalScore(scoreManager.GetScore());
+        SetRoundReached(roundManager.GetCurrentRound());
+
+        ShowGameWon(true);
+    }
+
     // At the beginning of any round of an *on-going* run.
-    private void OnRoundStart()
+    private void OnRoundStart(int round)
     {
         InitializeText();
         ShowGameInterface(true);
+        ShowMultiplier(false);
     }
 
     private void OnRoundOver()
     {
         ShowGameInterface(false);
 
-        SetBallsBonus(gameController.getBallsRemaining() * 50);
+        SetBallsBonus(gameController.GetExtraBallsRemaining() * 50);
         SetRoundReward(scoreManager.GetScore());
-        SetTokensEarned(scoreManager.GetScore() + (gameController.getBallsRemaining() * 50));
+        SetTokensEarned(scoreManager.GetScore() + (gameController.GetExtraBallsRemaining() * 50));
 
         ShowRoundOver(true);
     }
@@ -158,12 +178,14 @@ public class UIManager : MonoBehaviour
 
     public void SetFinalScore(int score)
     {
-        SetValue(_finalScore, score);
+        SetValue(_finalScore_L, score);
+        SetValue(_finalScore_W, score);
     }
 
     public void SetRoundReached(int round)
     {
-        SetValue(_roundReached, round);
+        SetValue(_roundReached_L, round);
+        SetValue(_roundReached_W, round);
     }
 
     public void SetBalls(int ballsRemaining)
@@ -178,6 +200,11 @@ public class UIManager : MonoBehaviour
         SetValue(_tokenCounter_Hub, amount);
     }
 
+    public void SetMultiplier(int amount)
+    {
+        _multiplier.text = $"x{amount}";
+    }
+
     public void ShowGameInterface(bool state)
     {
         SetVisible(_interfaceCanvas, state);
@@ -188,6 +215,11 @@ public class UIManager : MonoBehaviour
         SetVisible(_gameOverCanvas, state);
     }
 
+    public void ShowGameWon(bool state)
+    {
+        SetVisible(_gameWonCanvas, state);
+    }
+
     public void ShowHelp(bool state)
     {
         SetVisible(_helpCanvas, state);
@@ -196,6 +228,11 @@ public class UIManager : MonoBehaviour
     public void ShowRoundOver(bool state)
     {
         SetVisible(_roundOverCanvas, state);
+    }
+
+    public void ShowMultiplier(bool state)
+    {
+        _multiplier.gameObject.SetActive(state);
     }
 
     public void SetTokensEarned(int amount)
@@ -214,19 +251,19 @@ public class UIManager : MonoBehaviour
         SetValue(_roundCompleteReward, amount);
     }
 
-    public void SetShop(GameObject[] slots)
+    public void SetShop(PowerUp[] options)
     {
-        _optionName1.text = slots[0].GetComponent<PowerUp>().getName();
-        _optionName2.text = slots[1].GetComponent<PowerUp>().getName();
-        _optionName3.text = slots[2].GetComponent<PowerUp>().getName();
+        _optionName1.text = options[0].name;
+        _optionName2.text = options[1].name;
+        _optionName3.text = options[2].name;
 
-        SetValue(_optionPrice1, slots[0].GetComponent<PowerUp>().getCost());
-        SetValue(_optionPrice2, slots[1].GetComponent<PowerUp>().getCost());
-        SetValue(_optionPrice3, slots[2].GetComponent<PowerUp>().getCost());
+        SetValue(_optionPrice1, options[0].cost);
+        SetValue(_optionPrice2, options[1].cost);
+        SetValue(_optionPrice3, options[2].cost);
 
-        _optionImage1.sprite = slots[0].GetComponent<PowerUp>().getImage();
-        _optionImage2.sprite = slots[1].GetComponent<PowerUp>().getImage();
-        _optionImage3.sprite = slots[2].GetComponent<PowerUp>().getImage();
+        _optionImage1.sprite = options[0].image;
+        _optionImage2.sprite = options[1].image;
+        _optionImage3.sprite = options[2].image;
 
         SetValue(_inventoryCapacity, playerInventory.GetInventorySize());
     }

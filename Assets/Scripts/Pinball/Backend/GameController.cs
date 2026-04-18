@@ -9,11 +9,14 @@ public class GameController : MonoBehaviour
     public BallDropper dropper;
     public ScoreManager scoreManager;
     public RoundManager roundManager;
+    public BallManager ballManager;
     
-    private int _ballsRemaining;
+    private int _extraBallsRemaining;
     private bool _gameInProgress = false;
+    private bool _intermissionActive = false;
 
-    private int _maxBalls = 2;
+    [Header("Game Settings")]
+    [SerializeField] private int _maxBalls = 2;
 
     /* Orchestrator events. Controls the flow of gameplay states. */
 
@@ -21,6 +24,8 @@ public class GameController : MonoBehaviour
     public static event Action GameStarted;
     // Signals that the game is over after all balls have been lost.
     public static event Action GameOver;
+    // Signals that the game has been won, after all rounds have been cleared.
+    public static event Action GameWon;
     // Signals that the game has been started again after the intermission period.
     public static event Action GameContinued;
 
@@ -28,33 +33,47 @@ public class GameController : MonoBehaviour
 
     private void OnEnable()
     {
-        Drain.OnDrainHit += OnBallDrained;
+        BallManager.AllBallsDrained += OnAllBallsDrained;
 
         RoundManager.RoundStart += OnRoundStart;
+        RoundManager.RoundOver += OnRoundOver;
+        RoundManager.LastRoundOver += HandleGameWon;
     }
 
     private void OnDisable()
     {
-        Drain.OnDrainHit -= OnBallDrained;
+        BallManager.AllBallsDrained -= OnAllBallsDrained;
 
         RoundManager.RoundStart -= OnRoundStart;
+        RoundManager.RoundOver -= OnRoundOver;
+        RoundManager.LastRoundOver -= HandleGameWon;
     }
 
     /* Event Reactions */
 
-    private void OnRoundStart()
+    private void OnRoundStart(int round)
     {
         // Reset the ball counter back to full for the next round.
-        _ballsRemaining = _maxBalls;
-        UI.SetBalls(_ballsRemaining);
+        _extraBallsRemaining = _maxBalls;
+        UI.SetBalls(_extraBallsRemaining);
+
+        _intermissionActive = false;
     }
 
-    private void OnBallDrained()
+    private void OnRoundOver()
     {
-        _ballsRemaining--;
-        UI.SetBalls(_ballsRemaining);
+        _intermissionActive = true;
+    }
+
+    private void OnAllBallsDrained()
+    {
+        // If the round is currently over, ignore when all balls are drained.
+        if (_intermissionActive) return;
+
+        _extraBallsRemaining--;
+        UI.SetBalls(_extraBallsRemaining);
         
-        if (_ballsRemaining >= 0) dropper.ActivateDropper();
+        if (_extraBallsRemaining >= 0) dropper.ActivateDropper();
         else HandleGameOver();
     }
 
@@ -81,6 +100,7 @@ public class GameController : MonoBehaviour
     public void RestartGame()
     {
         _gameInProgress = true;
+        _intermissionActive = false;
         GameStarted?.Invoke();
     }
 
@@ -88,7 +108,16 @@ public class GameController : MonoBehaviour
     {
         Debug.Log("GameController | HandleGameOver: Game over.");
         _gameInProgress = false;
+        _intermissionActive = false;
         GameOver?.Invoke();
+    }
+
+    private void HandleGameWon()
+    {
+        Debug.Log("GameController | HandleGameWon: Game won!");
+        _gameInProgress = false;
+        _intermissionActive = false;
+        GameWon?.Invoke();
     }
 
     /* Getters and Setters */
@@ -98,8 +127,8 @@ public class GameController : MonoBehaviour
         return _gameInProgress;
     }
 
-    public int getBallsRemaining()
+    public int GetExtraBallsRemaining()
     {
-        return _ballsRemaining;
+        return _extraBallsRemaining;
     }
 }

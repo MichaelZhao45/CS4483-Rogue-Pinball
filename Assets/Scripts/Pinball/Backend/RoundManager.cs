@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class RoundManager : MonoBehaviour
 {
+    [SerializeField] private int _lastRound = 20;
+
     [Header("Round Completion Settings")]
-    [SerializeField] private int _minCompletionMoney = 3;
-    [SerializeField] private int _maxCompletionMoney = 5;
     private int _completionMoney = 0;
 
     private int _currentRound = 1;
@@ -13,9 +13,12 @@ public class RoundManager : MonoBehaviour
     /* Orchestrator events. Other scripts should react to the beginning and ending of rounds. */
 
     // Signals that the round is set up and ready to begin.
-    public static event Action RoundStart;
+    public static event Action<int> RoundStart;
     // Signals that the round has been completed, and that the "intermission period" should begin.
     public static event Action RoundOver;
+    // Signals that the last (maximum) round has been completed.
+    // Other scripts will interpret this as the game being won.
+    public static event Action LastRoundOver;
 
     /* Event Subscriptions */
 
@@ -56,7 +59,16 @@ public class RoundManager : MonoBehaviour
 
     private void OnScoreThresholdReached()
     {
-        RoundOver?.Invoke();
+        if (_currentRound < _lastRound)
+        {
+            Debug.Log($"RoundManager | OnScoreThresholdReached: Round {_currentRound} completed.");
+            RoundOver?.Invoke();
+        }
+        else
+        {
+            Debug.Log($"RoundManager | OnScoreThresholdReached: Final round {_currentRound} completed.");
+            LastRoundOver?.Invoke();
+        }
     }
 
     /* Script-Specific Methods */
@@ -65,9 +77,7 @@ public class RoundManager : MonoBehaviour
     {
         Debug.Log("RoundManager | InitializeRoundStart: Round elements initialized; RoundStart invoked.");
 
-        SetNewCompletionMoney();
-
-        RoundStart?.Invoke();
+        RoundStart?.Invoke(_currentRound);
     }
 
     /* Getters and Setters */
@@ -75,12 +85,6 @@ public class RoundManager : MonoBehaviour
     public int GetCurrentRound()
     {
         return _currentRound;
-    }
-
-    void SetNewCompletionMoney()
-    {
-        System.Random rng = new();
-        _completionMoney = rng.Next(_minCompletionMoney, _maxCompletionMoney + 1);
     }
 
     public int GetCompletionMoney()

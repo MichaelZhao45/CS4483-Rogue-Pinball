@@ -132,4 +132,39 @@ public class PlayerController : MonoBehaviour
     {
         HUD.enabled = true;
     }
+
+    public void EnterShopMode()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
+        playerInput.actions.FindActionMap("Hub World").Disable();
+        _moveInput = Vector2.zero;
+
+        if (_audioSource.isPlaying)
+        {
+            _audioSource.Stop();
+            _isFootstepsPlaying = false;
+        }
+
+        var inputBridge = _FPCamera.GetComponent("CinemachineInputActionProxy") as Behaviour;
+        if (inputBridge != null) inputBridge.enabled = false;
+
+        var panTilt = _FPCamera.GetComponent("CinemachinePanTilt") as Behaviour;
+        if (panTilt != null) panTilt.enabled = false;
+    }
+
+    public void ExitShopMode()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
+        playerInput.actions.FindActionMap("Hub World").Enable();
+
+        var inputBridge = _FPCamera.GetComponent("CinemachineInputActionProxy") as Behaviour;
+        if (inputBridge != null) inputBridge.enabled = true;
+
+        var panTilt = _FPCamera.GetComponent("CinemachinePanTilt") as Behaviour;
+        if (panTilt != null) panTilt.enabled = true;
+    }
 }
